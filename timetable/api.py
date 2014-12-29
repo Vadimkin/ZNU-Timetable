@@ -23,7 +23,7 @@ class GroupResource(ModelResource):
 class TeacherResource(ModelResource):
     class Meta:
         queryset = Teacher.objects.all()
-        resource_name = 'group'
+        resource_name = 'teacher'
 
 
 class CampusResource(ModelResource):
