@@ -54,7 +54,7 @@ class Audience(models.Model):
     audience = models.TextField(verbose_name="Аудиторія")
 
     def __unicode__(self):
-        return u"{0}".format(self.audience)
+        return u"{0}, {1} аудиторія".format(self.campus.name, self.audience)
 
     class Meta:
         verbose_name = "аудиторія"
