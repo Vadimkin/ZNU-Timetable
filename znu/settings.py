@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = settings_secret.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = settings_secret.DEBUG
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = settings_secret.TEMPLATE_DEBUG
 
 ALLOWED_HOSTS = []
 
@@ -64,17 +64,7 @@ WSGI_APPLICATION = 'znu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'NAME': 'znu',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'root',
-        'PASSWORD': '',
-
-        'charset': 'utf8',  # Кодировка
-        'use_unicode': 'True',
-    }
-}
+DATABASES = settings_secret.DATABASES
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/

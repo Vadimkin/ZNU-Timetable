@@ -9,3 +9,4 @@ media/
 images/
 files/
 .idea/
+*/migrations/*
