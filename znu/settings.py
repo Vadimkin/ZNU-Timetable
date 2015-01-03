@@ -91,3 +91,7 @@ STATIC_URL = '/static/'
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+# Tastypie
+
+API_LIMIT_PER_PAGE = 0
