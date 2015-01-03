@@ -43,29 +43,32 @@ class AudienceResource(ModelResource):
 class LessonResource(ModelResource):
     class Meta:
         queryset = Lesson.objects.all()
+        include_resource_uri = False
         resource_name = 'lesson'
 
 
 class TimetableResource(ModelResource):
+    teacher = fields.ForeignKey(TeacherResource, 'teacher')
+    lesson = fields.ForeignKey(LessonResource, 'lesson')
     # TODO filter by group name
 
     class Meta:
         queryset = Timetable.objects.all()
         include_resource_uri = False
         resource_name = 'timetable'
+        excludes = ['teacher']
 
         filtering = {
             'periodicity': ALL_WITH_RELATIONS,
             'group': ALL,
+            'teacher': ALL
         }
 
     def dehydrate(self, bundle):
-        bundle.data['teacher_name'] = bundle.obj.teacher.name
         bundle.data['teacher_id'] = bundle.obj.teacher.id
-
-        bundle.data['group_name'] = bundle.obj.group.name
-        bundle.data['group_departament'] = bundle.obj.group.departament.id
-        bundle.data['group_departament_name'] = bundle.obj.group.departament.name
+        bundle.data['group_id'] = bundle.obj.group.id
+        bundle.data['lesson_id'] = bundle.obj.lesson.id
+        bundle.data['audience_id'] = bundle.obj.audience.id
 
         return bundle
 
@@ -81,7 +84,7 @@ class dictToObj(object):
 
     def __getattr__(self, key):
         value = self.__dict__['d'][key]
-        if type(value) == type({}):
+        if type({}) == type(value):
             return dictToObj(value)
 
         return value
@@ -98,7 +101,7 @@ class CurrentWeekResource(Resource):
         from datetime import datetime
 
         bundle = []
-        current_week = (int(datetime.today().strftime("%U")) % 2) + 1 # If first week of year is numerator
+        current_week = (int(datetime.today().strftime("%U")) % 2) + 1  # If first week of year is numerator
         bundle.append(dictToObj({'week': current_week}))
         return bundle
 
