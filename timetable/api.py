@@ -8,17 +8,32 @@ from timetable.models import Departament, Group, Teacher, Campus, Audience, Less
 class DepartamentResource(ModelResource):
     class Meta:
         queryset = Departament.objects.all()
+        include_resource_uri = False
         resource_name = 'departament'
-        # excludes = ['email', 'password', 'is_active', 'is_staff', 'is_superuser']
-        # filtering = {
-        # 'username': ALL,
-        # }
+
+        filtering = {
+            'id': ALL_WITH_RELATIONS
+        }
 
 
 class GroupResource(ModelResource):
+    departament = fields.ForeignKey(DepartamentResource, 'departament')
+
     class Meta:
         queryset = Group.objects.all()
+        include_resource_uri = False
         resource_name = 'group'
+
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+            'departament': ALL_WITH_RELATIONS
+        }
+
+    def dehydrate(self, bundle):
+        del bundle.data['departament']
+        bundle.data['departament_id'] = bundle.obj.departament.id
+
+        return bundle
 
 
 class TeacherResource(ModelResource):
@@ -27,17 +42,38 @@ class TeacherResource(ModelResource):
         include_resource_uri = False
         resource_name = 'teacher'
 
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+        }
+
 
 class CampusResource(ModelResource):
     class Meta:
         queryset = Campus.objects.all()
         resource_name = 'campus'
 
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+        }
+
 
 class AudienceResource(ModelResource):
+    campus = fields.ForeignKey(CampusResource, 'campus')
+
     class Meta:
         queryset = Audience.objects.all()
+        include_resource_uri = False
         resource_name = 'audience'
+
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+        }
+
+    def dehydrate(self, bundle):
+        del bundle.data['campus']
+        bundle.data['campus_id'] = bundle.obj.campus.id
+
+        return bundle
 
 
 class LessonResource(ModelResource):
@@ -45,6 +81,10 @@ class LessonResource(ModelResource):
         queryset = Lesson.objects.all()
         include_resource_uri = False
         resource_name = 'lesson'
+
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+        }
 
 
 class TimetableResource(ModelResource):
@@ -65,6 +105,9 @@ class TimetableResource(ModelResource):
         }
 
     def dehydrate(self, bundle):
+        del bundle.data['lesson']
+        del bundle.data['teacher']
+
         bundle.data['teacher_id'] = bundle.obj.teacher.id
         bundle.data['group_id'] = bundle.obj.group.id
         bundle.data['lesson_id'] = bundle.obj.lesson.id
