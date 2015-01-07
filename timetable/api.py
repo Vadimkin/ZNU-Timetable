@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
+from django.conf.urls import url
+from django.core.paginator import InvalidPage
+from django.http import Http404
 
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.utils import trailing_slash
 from timetable.models import Departament, Group, Teacher, Campus, Audience, Lesson, Timetable
 
 
@@ -28,6 +32,30 @@ class GroupResource(ModelResource):
             'id': ALL_WITH_RELATIONS,
             'departament': ALL_WITH_RELATIONS
         }
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_search'), name="api_get_search"),
+        ]
+
+    def get_search(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.throttle_check(request)
+
+        # Do the query.
+        sqs = Group.objects.filter(name__contains=request.GET.get('s'))
+
+        objects = []
+
+        for result in sqs:
+            objects.append({'group_id': result.name, 'facult_id': result.departament.id})
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+        return self.create_response(request, object_list)
 
     def dehydrate(self, bundle):
         del bundle.data['departament']
