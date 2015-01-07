@@ -103,12 +103,16 @@ class Timetable(models.Model):
     LECTURE_TYPE = 1
     PRACTICE_TYPE = 2
     LABORATORY_TYPE = 3
+    CONSULTATION_TYPE = 4
+    EXAM_TYPE = 5
 
     LESSON_TYPES = (
         (NONE_TYPE, 'Не задано'),
         (LECTURE_TYPE, 'Лекція'),
-        (PRACTICE_TYPE, 'Практика'),
-        (LABORATORY_TYPE, 'Лабораторна')
+        (PRACTICE_TYPE, 'Семінар'),
+        (LABORATORY_TYPE, 'Лабораторна'),
+        (CONSULTATION_TYPE, 'Консультація'),
+        (EXAM_TYPE, 'Екзамен'),
     )
 
     TIME_TYPES = (
