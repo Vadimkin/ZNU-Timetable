@@ -42,13 +42,12 @@ class GroupResource(ModelResource):
         self.method_check(request, allowed=['get'])
         self.throttle_check(request)
 
-        # Do the query.
         sqs = Group.objects.filter(name__contains=request.GET.get('s'))
 
         objects = []
 
         for result in sqs:
-            objects.append({'group_id': result.name, 'facult_id': result.department.id})
+            objects.append({'id': result.id, 'group_id': result.name, 'department_id': result.department.id})
 
         object_list = {
             'objects': objects,
