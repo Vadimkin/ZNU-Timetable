@@ -6,14 +6,14 @@ from django.http import Http404
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
-from timetable.models import Departament, Group, Teacher, Campus, Audience, Lesson, Timetable
+from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable
 
 
-class DepartamentResource(ModelResource):
+class DepartmentResource(ModelResource):
     class Meta:
-        queryset = Departament.objects.all()
+        queryset = Department.objects.all()
         include_resource_uri = False
-        resource_name = 'departament'
+        resource_name = 'department'
 
         filtering = {
             'id': ALL_WITH_RELATIONS
@@ -21,7 +21,7 @@ class DepartamentResource(ModelResource):
 
 
 class GroupResource(ModelResource):
-    departament = fields.ForeignKey(DepartamentResource, 'departament')
+    department = fields.ForeignKey(DepartmentResource, 'department')
 
     class Meta:
         queryset = Group.objects.all()
@@ -30,7 +30,7 @@ class GroupResource(ModelResource):
 
         filtering = {
             'id': ALL_WITH_RELATIONS,
-            'departament': ALL_WITH_RELATIONS
+            'department': ALL_WITH_RELATIONS
         }
 
     def prepend_urls(self):
@@ -48,7 +48,7 @@ class GroupResource(ModelResource):
         objects = []
 
         for result in sqs:
-            objects.append({'group_id': result.name, 'facult_id': result.departament.id})
+            objects.append({'group_id': result.name, 'facult_id': result.department.id})
 
         object_list = {
             'objects': objects,
@@ -58,8 +58,8 @@ class GroupResource(ModelResource):
         return self.create_response(request, object_list)
 
     def dehydrate(self, bundle):
-        del bundle.data['departament']
-        bundle.data['departament_id'] = bundle.obj.departament.id
+        del bundle.data['department']
+        bundle.data['department_id'] = bundle.obj.department.id
 
         return bundle
 

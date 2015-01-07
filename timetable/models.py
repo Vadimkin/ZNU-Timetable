@@ -4,7 +4,7 @@ import datetime
 from django.db import models
 
 
-class Departament(models.Model):
+class Department(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Факультет")
 
     def __unicode__(self):
@@ -16,7 +16,7 @@ class Departament(models.Model):
 
 
 class Group(models.Model):
-    departament = models.ForeignKey(Departament, verbose_name="Факультет")
+    department = models.ForeignKey(Department, verbose_name="Факультет")
     name = models.CharField(max_length=500, null=False, verbose_name="Номер групи")
 
     def __unicode__(self):

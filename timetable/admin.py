@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from timetable.models import Departament, Group, Teacher, Campus, Audience, Lesson, Timetable
+from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable
 
 
 class CampusAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
 
 
-admin.site.register(Departament)
+admin.site.register(Department)
 admin.site.register(Group)
 admin.site.register(Teacher)
 admin.site.register(Campus, CampusAdmin)
