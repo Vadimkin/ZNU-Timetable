@@ -2,10 +2,12 @@
 import datetime
 
 from django.db import models
+import time
 
 
 class Department(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Факультет")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -18,6 +20,7 @@ class Department(models.Model):
 class Group(models.Model):
     department = models.ForeignKey(Department, verbose_name="Факультет")
     name = models.CharField(max_length=500, null=False, verbose_name="Номер групи")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -29,6 +32,7 @@ class Group(models.Model):
 
 class Teacher(models.Model):
     name = models.TextField(verbose_name="Ім'я та прізвище викладача")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -40,6 +44,7 @@ class Teacher(models.Model):
 
 class Campus(models.Model):
     name = models.TextField(blank=True, default='', verbose_name="Корпус")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -52,6 +57,7 @@ class Campus(models.Model):
 class Audience(models.Model):
     campus = models.ForeignKey(Campus, verbose_name="Корпус")
     audience = models.TextField(verbose_name="Аудиторія")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}, {1} аудиторія".format(self.campus.name, self.audience)
@@ -63,6 +69,7 @@ class Audience(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Предмет")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -136,6 +143,7 @@ class Timetable(models.Model):
     date_end = models.DateField(verbose_name="Кінець пар")
     time_start = models.TimeField(verbose_name="Час початку пари", choices=TIME_TYPES)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE, verbose_name="Тип предмету")
+    last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
         return u"{0}".format(self.lesson.name)
