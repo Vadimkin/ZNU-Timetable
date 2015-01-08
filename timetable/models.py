@@ -16,6 +16,15 @@ class Department(models.Model):
         verbose_name = "факультет"
         verbose_name_plural = "факультети"
 
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+
+        group = Group.objects.filter(departament_id=self.id)
+        for one_group in group:
+            one_group.save()
+
+        super(Department, self).save(*args, **kwargs)
+
 
 class Group(models.Model):
     department = models.ForeignKey(Department, verbose_name="Факультет")
@@ -29,6 +38,15 @@ class Group(models.Model):
         verbose_name = "група"
         verbose_name_plural = "групи"
 
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+
+        timetable = Timetable.objects.filter(group_id=self.id)
+        for one_lesson in timetable:
+            one_lesson.save()
+
+        super(Group, self).save(*args, **kwargs)
+
 
 class Teacher(models.Model):
     name = models.TextField(verbose_name="Ім'я та прізвище викладача")
@@ -41,6 +59,15 @@ class Teacher(models.Model):
         verbose_name = "викладач"
         verbose_name_plural = "викладачі"
 
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+
+        timetable = Timetable.objects.filter(teacher_id=self.id)
+        for one_lesson in timetable:
+            one_lesson.save()
+
+        super(Teacher, self).save(*args, **kwargs)
+
 
 class Campus(models.Model):
     name = models.TextField(blank=True, default='', verbose_name="Корпус")
@@ -52,6 +79,15 @@ class Campus(models.Model):
     class Meta:
         verbose_name = "корпус"
         verbose_name_plural = "корпуси"
+
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+
+        audience = Audience.objects.filter(campus_id=self.id)
+        for one_audience in audience:
+            one_audience.save()
+
+        super(Campus, self).save(*args, **kwargs)
 
 
 class Audience(models.Model):
@@ -66,6 +102,15 @@ class Audience(models.Model):
         verbose_name = "аудиторія"
         verbose_name_plural = "аудиторії"
 
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+
+        timetable = Timetable.objects.filter(audience_id=self.id)
+        for one_lesson in timetable:
+            one_lesson.save()
+
+        super(Audience, self).save(*args, **kwargs)
+
 
 class Lesson(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Предмет")
@@ -77,6 +122,15 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "предмет"
         verbose_name_plural = "предмети"
+
+    def save(self, *args, **kwargs):
+        self.lesson.save()
+
+        timetable = Timetable.objects.filter(lesson_id=self.id)
+        for one_lesson in timetable:
+            one_lesson.save()
+
+        super(Lesson, self).save(*args, **kwargs)
 
 
 class Timetable(models.Model):
@@ -138,11 +192,13 @@ class Timetable(models.Model):
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
     day = models.IntegerField(max_length=1, choices=DAYS_CHOICES, default=MONDAY_DAY, verbose_name="День")
     audience = models.ForeignKey(Audience, verbose_name="Аудиторія")
-    periodicity = models.IntegerField(max_length=1, choices=PERIODICITY_CHOICES, default=ALWAYS_LESSON, verbose_name="Періодичність")
+    periodicity = models.IntegerField(max_length=1, choices=PERIODICITY_CHOICES, default=ALWAYS_LESSON,
+                                      verbose_name="Періодичність")
     date_start = models.DateField(verbose_name="Початок пар")
     date_end = models.DateField(verbose_name="Кінець пар")
     time_start = models.TimeField(verbose_name="Час початку пари", choices=TIME_TYPES)
-    lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE, verbose_name="Тип предмету")
+    lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
+                                      verbose_name="Тип предмету")
     last_update = models.IntegerField(default=time.time())
 
     def __unicode__(self):
@@ -151,3 +207,7 @@ class Timetable(models.Model):
     class Meta:
         verbose_name = "розклад"
         verbose_name_plural = "розклади"
+
+    def save(self, *args, **kwargs):
+        self.last_update = time.time()
+        super(Timetable, self).save(*args, **kwargs)
