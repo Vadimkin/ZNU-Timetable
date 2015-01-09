@@ -133,6 +133,19 @@ class Lesson(models.Model):
         super(Lesson, self).save(*args, **kwargs)
 
 
+class Time(models.Model):
+    num = models.IntegerField(max_length=1)
+    time_start = models.TimeField(verbose_name="Час початку пари")
+    time_end = models.TimeField(verbose_name="Час кінця пари")
+
+    def __unicode__(self):
+        return u"{0} пара ({1}–{2})".format(self.num, self.time_start, self.time_end)
+
+    class Meta:
+        verbose_name = "час"
+        verbose_name_plural = "часу"
+
+
 class Timetable(models.Model):
     MONDAY_DAY = 1
     TUESDAY_DAY = 2
@@ -176,17 +189,6 @@ class Timetable(models.Model):
         (EXAM_TYPE, 'Екзамен'),
     )
 
-    TIME_TYPES = (
-        (datetime.time(hour=8, minute=0, second=0, microsecond=0, tzinfo=None), "08:00 — 1 пара"),
-        (datetime.time(hour=9, minute=35, second=0, microsecond=0, tzinfo=None), "09:35 — 2 пара"),
-        (datetime.time(hour=11, minute=25, second=0, microsecond=0, tzinfo=None), "11:25 — 3 пара"),
-        (datetime.time(hour=12, minute=55, second=0, microsecond=0, tzinfo=None), "12:55 — 4 пара"),
-        (datetime.time(hour=14, minute=30, second=0, microsecond=0, tzinfo=None), "14:30 — 5 пара"),
-        (datetime.time(hour=16, minute=05, second=0, microsecond=0, tzinfo=None), "16:05 — 6 пара"),
-        (datetime.time(hour=17, minute=40, second=0, microsecond=0, tzinfo=None), "17:40 — 7 пара"),
-        (datetime.time(hour=19, minute=10, second=0, microsecond=0, tzinfo=None), "19:10 — 8 пара"),
-    )
-
     teacher = models.ForeignKey(Teacher, verbose_name="Викладач", null=True)
     group = models.ForeignKey(Group, verbose_name="Група")
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
@@ -196,7 +198,7 @@ class Timetable(models.Model):
                                       verbose_name="Періодичність")
     date_start = models.DateField(verbose_name="Початок пар")
     date_end = models.DateField(verbose_name="Кінець пар")
-    time_start = models.TimeField(verbose_name="Час початку пари", choices=TIME_TYPES)
+    period = models.ForeignKey(Time, verbose_name="Час пар", null=True)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
                                       verbose_name="Тип предмету")
     last_update = models.IntegerField(default=time.time())

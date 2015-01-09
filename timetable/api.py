@@ -6,7 +6,7 @@ from django.http import Http404
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
-from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable
+from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
 
 
 class DepartmentResource(ModelResource):
@@ -35,7 +35,8 @@ class GroupResource(ModelResource):
 
     def prepend_urls(self):
         return [
-            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()), self.wrap_view('get_search'), name="api_get_search"),
+            url(r"^(?P<resource_name>%s)/search%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_search'), name="api_get_search"),
         ]
 
     def get_search(self, request, **kwargs):
@@ -114,16 +115,26 @@ class LessonResource(ModelResource):
         }
 
 
+class TimeResource(ModelResource):
+    class Meta:
+        queryset = Time.objects.all()
+        include_resource_uri = False
+        resource_name = 'time'
+
+        filtering = {
+            'id': ALL_WITH_RELATIONS,
+        }
+
+
 class TimetableResource(ModelResource):
     teacher = fields.ForeignKey(TeacherResource, 'teacher')
     lesson = fields.ForeignKey(LessonResource, 'lesson')
-    # TODO filter by group name
+    # period = fields.ForeignKey(TimeResource, 'period')
 
     class Meta:
         queryset = Timetable.objects.all()
         include_resource_uri = False
         resource_name = 'timetable'
-        excludes = ['teacher']
 
         filtering = {
             'periodicity': ALL_WITH_RELATIONS,
@@ -134,11 +145,14 @@ class TimetableResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['lesson']
         del bundle.data['teacher']
+        # del bundle.data['period']
 
         bundle.data['teacher_id'] = bundle.obj.teacher.id
         bundle.data['group_id'] = bundle.obj.group.id
         bundle.data['lesson_id'] = bundle.obj.lesson.id
         bundle.data['audience_id'] = bundle.obj.audience.id
+        if bundle.obj.period:
+            bundle.data['time_id'] = bundle.obj.period.id
 
         return bundle
 
