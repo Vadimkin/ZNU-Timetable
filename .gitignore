@@ -11,3 +11,4 @@ files/
 .idea/
 */migrations/*
 */migrations/
+timetable/migrations
