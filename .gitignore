@@ -10,3 +10,4 @@ images/
 files/
 .idea/
 */migrations/*
+*/migrations/
