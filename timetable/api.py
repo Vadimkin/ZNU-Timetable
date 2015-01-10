@@ -48,7 +48,7 @@ class GroupResource(ModelResource):
         objects = []
 
         for result in sqs:
-            objects.append({'id': result.id, 'group_id': result.name, 'department_id': result.department.id, 'last_update': result.last_update})
+            objects.append({'id': result.id, 'name': result.name, 'department_id': result.department.id, 'last_update': result.last_update})
 
         object_list = {
             'objects': objects,
