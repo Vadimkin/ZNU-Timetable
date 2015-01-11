@@ -129,7 +129,7 @@ class TimeResource(ModelResource):
 class TimetableResource(ModelResource):
     teacher = fields.ForeignKey(TeacherResource, 'teacher')
     lesson = fields.ForeignKey(LessonResource, 'lesson')
-    # period = fields.ForeignKey(TimeResource, 'period')
+    group = fields.ForeignKey(GroupResource, 'group')
 
     class Meta:
         queryset = Timetable.objects.all()
@@ -145,7 +145,7 @@ class TimetableResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['lesson']
         del bundle.data['teacher']
-        # del bundle.data['period']
+        del bundle.data['group']
 
         bundle.data['teacher_id'] = bundle.obj.teacher.id
         bundle.data['group_id'] = bundle.obj.group.id
