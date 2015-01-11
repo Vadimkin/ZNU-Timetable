@@ -7,6 +7,7 @@ from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie.utils import trailing_slash
 from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
+from timetable.utils import get_current_week
 
 
 class DepartmentResource(ModelResource):
@@ -185,7 +186,7 @@ class CurrentWeekResource(Resource):
         from datetime import datetime
 
         bundle = []
-        current_week = (int(datetime.today().strftime("%U")) % 2) + 1  # If first week of year is numerator
+        current_week = get_current_week()
         bundle.append(dictToObj({'week': current_week}))
         return bundle
 

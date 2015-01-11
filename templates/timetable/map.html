@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+
+{% block html_append %}class="campusMap"{% endblock %}
+
+{% block content %}
+<script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+
+<script type="text/javascript">
+window.onload = function() {
+	 ymaps.ready(function() {
+		var myMap = new ymaps.Map('map', {
+				center: [47.819230, 35.181282],
+				zoom: 17
+		});
+
+		myMap.controls.add('typeSelector');
+		myMap.controls.add('zoomControl');
+
+		ymaps.geoXml.load("http://maps.yandex.ua/export/usermaps/csQQf7mEuYF20lGBfEf8qV-YV_ef4jJa/?1")
+				.then(function(res) {
+					 res.geoObjects.each(function(geoObject) {
+						campusName = (/<h3>(.+?)<\/h3>/i.exec(geoObject.properties.get('balloonContentBody', 'none')))[1];
+
+						geoObject.properties.set('hintContent', campusName);
+						geoObject.options.set({
+							preset: 'twirl#blueStretchyIcon'
+						});
+						geoObject.properties.set('iconContent', campusName);
+
+					});
+					
+					while (geoObjects = res.geoObjects.get(0)) {
+						myMap.geoObjects.add(geoObjects);
+					}
+				}, function(error) {
+					alert('Ошибка: ' + error);
+				});
+	 });
+}
+</script>
+
+
+ <div id="map" style="width: 100%; height: 100%; margin-top: -5px;"></div>
+{% endblock %}

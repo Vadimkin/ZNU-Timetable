@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container groupName">
+        <h2>Викладачі</h2>
+</div><!-- /.container -->
+
+<div class="timetable">
+    <div class="container">
+        {% for teacher in object_list %}
+            {% ifchanged teacher.first_letter %}
+                {% if forloop.counter != 1 %}
+                    <hr>
+                {% endif %}
+
+                <h3>{{ teacher.first_letter }}</h3>
+           {% endifchanged %}
+           <div class="oneTeacher"><a href="">{{ teacher.name }}</a></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
