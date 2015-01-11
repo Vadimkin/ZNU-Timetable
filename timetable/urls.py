@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, url, include
-from django.conf.urls.static import static
 from django.views import generic
 from tastypie.api import Api
 from timetable import views, api
@@ -22,4 +21,4 @@ urlpatterns = patterns(
     url(r'^teachers/$', views.TeacherListView.as_view(), name='teacher_list'),
     url(r'^teachers/(?P<teacher_id>[0-9]+)/$', views.TeacherDetailView.as_view(), name='teacher_detail'),
     url(r'^api/', include(v1_api.urls)),
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)

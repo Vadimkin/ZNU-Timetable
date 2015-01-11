@@ -1,7 +1,6 @@
 .venv/
 *.pyc
 settings_secret.py
-znu/static/
 *.json
 *~
 DEADJOE
@@ -12,3 +11,4 @@ files/
 */migrations/*
 */migrations/
 timetable/migrations
+znu/static/*
