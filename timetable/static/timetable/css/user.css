@@ -1,0 +1,206 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+body {
+	font-family: 'PT Sans', sans-serif;
+	margin-bottom: 60px;
+}
+
+/*
+ * Cover
+ */
+
+.site-wrapper {
+	color: #fff;
+	display: table;
+	width: 100%;
+	height: 100%; /* For at least Firefox */
+	min-height: 100%;
+/*	-webkit-box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+	        box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
+}
+.site-wrapper-inner {
+	display: table-cell;
+	vertical-align: top;
+}
+.site-wrapper-inner {
+	vertical-align: middle;
+}
+.cover-container {
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.coverPage,
+.coverPage body {
+	height: 100%;
+}
+
+
+.coverPage body {
+	background: url('../img/znu-1k.jpg');
+	background-size: cover;
+}
+
+	.cover {
+		text-align: center;
+	}
+
+		.cover-heading {
+			font-size: 60px;
+			color: #fff;
+			font-weight: bold;
+			font-family: "PT Sans Caption";
+		}
+
+			@media (max-width: 767px) {
+			  .cover-heading {
+			    font-size: 30px;
+			  }
+			}
+
+		.cover-suphead {
+			font-family: "PT Sans";
+			font-size: 27px;
+		}
+
+			@media (max-width: 767px) {
+			  .cover-suphead {
+			    font-size: 20px;
+			  }
+			}
+
+		.cover-input {
+			background: #fff url('../img/search-icon.png') no-repeat 20px 50%;
+			margin: 20px auto 0;
+			padding-left: 60px;
+			width: 380px;
+			height: 55px;
+			line-height: 55px;
+			font-size: 17px;
+			border-radius: 30px;
+		}
+
+			@media (max-width: 767px) {
+			  .cover-input {
+			  	background: #fff;
+			  	line-height: 35px;
+			  	padding: 0 20px;
+			    width: 250px;
+				height: 35px;
+			  }
+			}
+
+		.cover-links {
+			opacity: 0.75;
+			color: #fff;
+			margin-top: 20px;
+			font-size: 15px;
+		}
+
+			.cover-links a {
+				color: #fff;
+			}
+
+.campusMap, .campusMap body {
+	height: 100%;
+}
+	.campusMap .footer {
+		display: none;
+	}
+
+
+
+.groupName {
+	/*margin-top: 5px;*/
+	margin-bottom: 10px;
+}
+
+.downloadCal {
+	float: right;
+	margin-top: 25.5px;
+	font-size: 16px;
+	color: #555555;
+}
+	.downloadCal span {
+		color: #0067D5;
+		margin-right: 5px;
+	}
+
+.timetable {
+	background: #FBFBFB;
+	padding: 15px 0;
+}
+
+	.timetable-lesson {
+		padding: 15px 0 15px;
+	}
+
+	.calendar-icon {
+		display: inline-block;
+		width: 45px;
+		height: 45px;
+		background: url('../img/calendar.png') 50% 50% no-repeat;
+		background-color: #3A99FF;
+		border-radius: 100%;
+		vertical-align: top;
+	}
+
+	.day {
+		margin-bottom: 20px;
+	}
+
+		.date {
+			margin: 7.5px 0 0 12px;
+			display: inline-block;
+			vertical-align: top;
+		}
+
+			.date-weekday {
+				text-transform: uppercase;
+				font-size: 14px;
+				color: #555555;
+				line-height: 18px;
+			}
+
+			.date-day {
+				line-height: 12px;
+				font-size: 12px;
+				color: #A3A3A3;
+			}
+
+	.timetable-time {
+		background: #F2F2F2;
+		/*height: 45px;*/
+		line-height: 45px;
+		text-align: center;
+		font-size: 15px;
+		color: #555555;
+		border-bottom: 1px solid #E3E3E3;
+	}
+
+	.timetable-info {
+		background: #fff;
+		min-height: 45px;
+		line-height: 45px;
+		border-bottom: 1px solid #E3E3E3;
+	}
+
+	    .onlyOn {
+	        display: none;
+	    }
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #f5f5f5;
+}
+	.footer .text-muted {
+		line-height: 60px;
+		padding: 0;
+		margin: 0;
+	}

@@ -3,6 +3,7 @@ import datetime
 
 from django.db import models
 import time
+from timetable.utils import get_current_week
 
 
 class Department(models.Model):
@@ -141,19 +142,22 @@ class Time(models.Model):
     def __unicode__(self):
         return u"{0} пара ({1}–{2})".format(self.num, self.time_start, self.time_end)
 
+    def get_time_without_seconds(self):
+        return self.time_start.strftime('%H:%M')
+
     class Meta:
         verbose_name = "час"
         verbose_name_plural = "часу"
 
 
 class Timetable(models.Model):
-    MONDAY_DAY = 1
-    TUESDAY_DAY = 2
-    WEDNESDAY_DAY = 3
-    THURSDAY_DAY = 4
-    FRIDAY_DAY = 5
-    SATURDAY_DAY = 6
-    SUNDAY_DAY = 7
+    MONDAY_DAY = 0
+    TUESDAY_DAY = 1
+    WEDNESDAY_DAY = 2
+    THURSDAY_DAY = 3
+    FRIDAY_DAY = 4
+    SATURDAY_DAY = 5
+    SUNDAY_DAY = 6
     DAYS_CHOICES = (
         (MONDAY_DAY, 'Понеділок'),
         (TUESDAY_DAY, 'Вівторок'),
@@ -213,3 +217,11 @@ class Timetable(models.Model):
     def save(self, *args, **kwargs):
         self.last_update = time.time()
         super(Timetable, self).save(*args, **kwargs)
+
+    def get_readable_week_day(self):
+        return self.DAYS_CHOICES[self.day][1]
+
+    def get_readable_month_day(self, week=1):
+        today = datetime.date.today()
+        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)
+        return day.strftime('%d %B')

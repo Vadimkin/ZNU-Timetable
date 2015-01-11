@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load readable_month_day %}
+
+{% block content %}
+<div class="container groupName">
+        <h2>{{ object.name }} — розклад</h2>
+</div><!-- /.container -->
+
+<div class="timetable">
+    <div class="container">
+        {% for lesson in timetable %}
+
+            {% ifchanged lesson.day %}
+                {% if forloop.counter != 1 %}
+                    </div> <!-- (-) col-md-9 -->
+                    </div> <!-- (-) timetable-lesson -->
+                {% endif %}
+
+                <div class="row timetable-lesson"> <!-- (+) timetable-lesson -->
+                    <div class="col-md-3 day">
+                        <span class="calendar-icon"></span>
+                        <div class="date">
+                            <div class="date-weekday">{{ lesson.get_readable_week_day }}</div>
+                            <div class="date-day">{% readable_month_day lesson %}</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-9">
+           {% endifchanged %}
+
+            <div class="row">
+                <div class="col-md-1 hidden-xs hidden-sm timetable-time">{{ lesson.period.get_time_without_seconds }}</div>
+                <div class="col-md-11 timetable-info"><span class="onlyOn onlyOn-xs onlyOn-sm" style="font-weight: bold;">{{ lesson.period.get_time_without_seconds }}:</span> {{ lesson.lesson.name }} ({{ lesson.audience.campus.name }}, аудиторія {{ lesson.audience.audience }}). Група — {{ lesson.group.name }}</div>
+            </div>
+
+            {% if forloop.last %}
+                </div> <!-- (-) col-md-9 -->
+                </div> <!-- (-) timetable-lesson -->
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
