@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block navbar %}{% include "base/navbar.html" with active_page="teacher_list" %}{% endblock %}
+
 {% block content %}
 <div class="container groupName">
         <h2>Викладачі</h2>
@@ -15,7 +17,7 @@
 
                 <h3>{{ teacher.first_letter }}</h3>
            {% endifchanged %}
-           <div class="oneTeacher"><a href="">{{ teacher.name }}</a></div>
+           <div class="oneTeacher"><a href="{% url 'teacher_detail' teacher.id %}">{{ teacher.name }}</a></div>
         {% endfor %}
     </div>
 </div>

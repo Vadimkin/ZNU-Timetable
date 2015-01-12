@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block navbar %}{% include "base/navbar.html" with active_page="group_list" %}{% endblock %}
+
+{% block content %}
+<div class="container groupName">
+        <h2>Групи</h2>
+</div><!-- /.container -->
+
+<div class="timetable">
+    <div class="container">
+        {% for group in object_list %}
+            {% ifchanged group.department.name %}
+                {% if forloop.counter != 1 %}
+                    <hr>
+                {% endif %}
+
+                <h3>{{ group.department.name }}</h3>
+           {% endifchanged %}
+           <div class="oneGroup"><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

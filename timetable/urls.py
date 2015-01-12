@@ -20,5 +20,7 @@ urlpatterns = patterns(
     url(r'^map/$', views.MapView.as_view(), name='map'),
     url(r'^teachers/$', views.TeacherListView.as_view(), name='teacher_list'),
     url(r'^teachers/(?P<teacher_id>[0-9]+)/$', views.TeacherDetailView.as_view(), name='teacher_detail'),
+    url(r'^groups/$', views.GroupListView.as_view(), name='group_list'),
+    url(r'^groups/(?P<group_id>[0-9]+)$', views.GroupDetailView.as_view(), name='group_detail'),
     url(r'^api/', include(v1_api.urls)),
 )

@@ -2,6 +2,7 @@
 
 
 {% block html_append %}class="campusMap"{% endblock %}
+{% block navbar %}{% include "base/navbar.html" with navbar_class="navbar-fixed-top" active_page="map" %}{% endblock %}
 
 {% block content %}
 <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
