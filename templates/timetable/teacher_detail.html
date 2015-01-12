@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load readable_month_day %}
 
+{% block navbar %}{% include "base/navbar.html" with active_page="teacher_list" %}{% endblock %}
+
 {% block content %}
 <div class="container groupName">
         <h2>{{ object.name }}</h2>
