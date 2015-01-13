@@ -66,3 +66,7 @@ class GroupDetailView(generic.DetailView):
             one_lesson.week = get_current_week(2)
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
+
+
+class APIView(generic.TemplateView):
+    template_name = 'timetable/api.html'

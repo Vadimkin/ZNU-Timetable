@@ -96,6 +96,7 @@ class AudienceResource(ModelResource):
 
         filtering = {
             'id': ALL_WITH_RELATIONS,
+            'campus': ALL,
         }
 
     def dehydrate(self, bundle):

@@ -1,8 +1,6 @@
 from django.conf.urls import patterns, url, include
-from django.views import generic
 from tastypie.api import Api
 from timetable import views, api
-from znu import settings
 
 v1_api = Api(api_name='v1')
 v1_api.register(api.DepartmentResource())
@@ -22,5 +20,6 @@ urlpatterns = patterns(
     url(r'^teachers/(?P<teacher_id>[0-9]+)/$', views.TeacherDetailView.as_view(), name='teacher_detail'),
     url(r'^groups/$', views.GroupListView.as_view(), name='group_list'),
     url(r'^groups/(?P<group_id>[0-9]+)$', views.GroupDetailView.as_view(), name='group_detail'),
+    url(r'^api/$', views.APIView.as_view(), name='api'),
     url(r'^api/', include(v1_api.urls)),
 )

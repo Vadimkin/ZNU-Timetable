@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-
+{% block head %}{% include "base/head.html" with title='Карта корпусів' %}{% endblock %}
 {% block html_append %}class="campusMap"{% endblock %}
 {% block navbar %}{% include "base/navbar.html" with navbar_class="navbar-fixed-top" active_page="map" %}{% endblock %}
 

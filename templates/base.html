@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ru" {% block html_append %}{% endblock %}>
 	<head>
-		{% include "base/head.html" %}
+        {% block head %}{% include "base/head.html" %}{% endblock %}
 	</head>
 
 	<body>

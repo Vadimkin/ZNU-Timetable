@@ -16,11 +16,8 @@
 				<li {% if active_page = 'map' %}class="active"{% endif %}><a href="{% url 'map' %}">Карта корпусів</a></li>
 			</ul>
             <ul class="nav navbar-nav navbar-right">
-				<li><a href="#">API</a></li>
+				<li {% if active_page = 'api' %}class="active"{% endif %}><a href="{% url 'api' %}">API</a></li>
 			</ul>
-			<!--<form class="navbar-form navbar-right hidden-sm">-->
-				<!--<input type="text" class="form-control" placeholder="Пошук...">-->
-			<!--</form>-->
 		</div><!--/.nav-collapse -->
 	</div>
 </nav>
