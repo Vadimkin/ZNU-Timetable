@@ -158,7 +158,7 @@ class TimetableResource(ModelResource):
         return bundle
 
 
-class dictToObj(object):
+class DictToObj(object):
     """
     Convert dictionary to object
     @source http://stackoverflow.com/a/1305561/383912
@@ -170,7 +170,7 @@ class dictToObj(object):
     def __getattr__(self, key):
         value = self.__dict__['d'][key]
         if type({}) == type(value):
-            return dictToObj(value)
+            return DictToObj(value)
 
         return value
 
@@ -183,11 +183,9 @@ class CurrentWeekResource(Resource):
         include_resource_uri = False
 
     def obj_get_list(self, request=None, **kwargs):
-        from datetime import datetime
-
         bundle = []
         current_week = get_current_week()
-        bundle.append(dictToObj({'week': current_week}))
+        bundle.append(DictToObj({'week': current_week}))
         return bundle
 
     def alter_list_data_to_serialize(self, request, data_dict):
