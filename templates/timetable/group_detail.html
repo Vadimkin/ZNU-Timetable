@@ -32,7 +32,7 @@
 
             <div class="row">
                 <div class="col-md-1 hidden-xs hidden-sm timetable-time">{{ lesson.period.get_time_without_seconds }}</div>
-                <div class="col-md-11 timetable-info"><span class="onlyOn onlyOn-xs onlyOn-sm" style="font-weight: bold;">{{ lesson.period.get_time_without_seconds }}:</span> {{ lesson.lesson.name }} ({{ lesson.audience.campus.name }}, аудиторія {{ lesson.audience.audience }}). Група — {{ lesson.group.name }}</div>
+                <div class="col-md-11 timetable-info"><span class="onlyOn onlyOn-xs onlyOn-sm" style="font-weight: bold;">{{ lesson.period.get_time_without_seconds }}:</span> {{ lesson.lesson.name }} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}). Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a></div>
             </div>
 
             {% if forloop.last %}

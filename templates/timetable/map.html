@@ -9,6 +9,9 @@
 
 <script type="text/javascript">
 window.onload = function() {
+    var activeCampus = (getQueryVariable('campus'))?getQueryVariable('campus'):0;
+    var allCampus = [0, 1, 2, 7, 3, 4, 6, 5, 8];
+
 	 ymaps.ready(function() {
 		var myMap = new ymaps.Map('map', {
 				center: [47.819230, 35.181282],
@@ -22,15 +25,32 @@ window.onload = function() {
 				.then(function(res) {
 					 res.geoObjects.each(function(geoObject) {
 						campusName = (/<h3>(.+?)<\/h3>/i.exec(geoObject.properties.get('balloonContentBody', 'none')))[1];
+						campusNum = geoObject.properties.get('metaDataProperty.AnyMetaData.number');
 
-						geoObject.properties.set('hintContent', campusName);
-						geoObject.options.set({
-							preset: 'twirl#blueStretchyIcon'
-						});
-						geoObject.properties.set('iconContent', campusName);
-
+						if(allCampus[activeCampus] == 0) {
+						    geoObject.properties.set('hintContent', campusName);
+                            geoObject.options.set({
+                                preset: 'twirl#blueStretchyIcon'
+                            });
+                            geoObject.properties.set('iconContent', campusName);
+						} else {
+						    if(allCampus[activeCampus] == campusNum) {
+						        geoObject.properties.set('hintContent', campusName);
+                                geoObject.options.set({
+                                    preset: 'twirl#redStretchyIcon'
+                                });
+                                geoObject.properties.set('iconContent', campusName + " корпус");
+                                myMap.setCenter(geoObject.geometry.getCoordinates());
+						    } else {
+						        geoObject.properties.set('hintContent', campusName);
+                                geoObject.options.set({
+                                    preset: 'twirl#blueStretchyIcon'
+                                });
+                                geoObject.properties.set('iconContent', campusName);
+						    }
+						}
 					});
-					
+
 					while (geoObjects = res.geoObjects.get(0)) {
 						myMap.geoObjects.add(geoObjects);
 					}
