@@ -8,7 +8,7 @@ from timetable.utils import get_current_week
 
 class Department(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Факультет")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -30,7 +30,7 @@ class Department(models.Model):
 class Group(models.Model):
     department = models.ForeignKey(Department, verbose_name="Факультет")
     name = models.CharField(max_length=500, null=False, verbose_name="Номер групи")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -51,7 +51,7 @@ class Group(models.Model):
 
 class Teacher(models.Model):
     name = models.TextField(verbose_name="Ім'я та прізвище викладача")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -72,7 +72,7 @@ class Teacher(models.Model):
 
 class Campus(models.Model):
     name = models.TextField(blank=True, default='', verbose_name="Корпус")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -94,7 +94,7 @@ class Campus(models.Model):
 class Audience(models.Model):
     campus = models.ForeignKey(Campus, verbose_name="Корпус")
     audience = models.TextField(verbose_name="Аудиторія")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}, {1} аудиторія".format(self.campus.name, self.audience)
@@ -115,7 +115,7 @@ class Audience(models.Model):
 
 class Lesson(models.Model):
     name = models.CharField(max_length=500, null=False, verbose_name="Предмет")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -193,8 +193,17 @@ class Timetable(models.Model):
         (EXAM_TYPE, 'Екзамен'),
     )
 
+    SUBGROUP_TYPES = (
+        (0, 'Загальна група'),
+        (1, '1 підгрупа'),
+        (2, '2 підгрупа'),
+        (3, '3 підгрупа'),
+
+    )
+
     teacher = models.ForeignKey(Teacher, verbose_name="Викладач", null=True)
     group = models.ForeignKey(Group, verbose_name="Група")
+    subgroup = models.IntegerField(max_length=1, choices=SUBGROUP_TYPES, default=0, verbose_name="Підгрупа")
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
     day = models.IntegerField(max_length=1, choices=DAYS_CHOICES, default=MONDAY_DAY, verbose_name="День")
     audience = models.ForeignKey(Audience, verbose_name="Аудиторія")
@@ -205,7 +214,7 @@ class Timetable(models.Model):
     period = models.ForeignKey(Time, verbose_name="Час пар", null=True)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
                                       verbose_name="Тип предмету")
-    last_update = models.IntegerField(default=time.time())
+    last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
         return u"{0}".format(self.lesson.name)

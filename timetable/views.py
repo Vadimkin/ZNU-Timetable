@@ -34,11 +34,11 @@ class TeacherDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(TeacherDetailView, self).get_context_data(**kwargs)
         timetable_first = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                                   periodicity__in=[0, get_current_week(1)]).order_by('day')
+                                                   periodicity__in=[0, get_current_week(1)]).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                                    periodicity__in=[0, get_current_week(2)]).order_by('day')
+                                                    periodicity__in=[0, get_current_week(2)]).order_by('day', 'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
         context['timetable'] = list(chain(timetable_first, timetable_second))
@@ -57,11 +57,11 @@ class GroupDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(GroupDetailView, self).get_context_data(**kwargs)
         timetable_first = Timetable.objects.filter(group_id=self.kwargs['group_id'],
-                                                   periodicity__in=[0, get_current_week(1)]).order_by('day')
+                                                   periodicity__in=[0, get_current_week(1)]).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
-                                                    periodicity__in=[0, get_current_week(2)]).order_by('day')
+                                                    periodicity__in=[0, get_current_week(2)]).order_by('day', 'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
         context['timetable'] = list(chain(timetable_first, timetable_second))

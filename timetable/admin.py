@@ -7,11 +7,13 @@ from timetable.models import Department, Group, Teacher, Campus, Audience, Lesso
 
 class CampusAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    exclude = ('last_update',)
 
 
 class TimetableAdmin(admin.ModelAdmin):
     list_display = ('id', 'get_group', 'lesson', 'last_update', 'teacher')
     list_filter = ('group', 'group__department', 'lesson', 'teacher')
+    exclude = ('last_update',)
 
     def get_group(self, obj):
         return "{0} ({1})".format(obj.group.name, obj.group.department)

@@ -1,4 +1,31 @@
 $(document).ready(function() {
+    if($('.js-subgroup').get(0)) {
+        subgroups = [];
+        $('.subgroup').each(function() {
+            subgroupID = $(this).data('subgroup');
+            if(subgroups.indexOf(subgroupID) == -1) {
+                subgroups.push(subgroupID);
+            }
+        });
+        subgroups = subgroups.sort();
+
+        $.each(subgroups, function(key, value) {
+             $('.js-subgroup')
+                 .append($("<option></option>")
+                 .attr("value",value)
+                 .text(value + ' підгрупа'));
+        });
+        if(subgroups.length > 0) {
+            $('.js-subgroup').show();
+        }
+    };
+
+    $('.js-subgroup').on('change', function() {
+        currentSubgroup = $(this).val();
+        console.log(currentSubgroup);
+        $('.subgroup').not('.subgroup__' + currentSubgroup).slideUp();
+        $('.subgroup__' + currentSubgroup).slideDown();
+    });
 });
 
 function getQueryVariable(variable) {

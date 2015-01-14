@@ -4,7 +4,7 @@ html {
 }
 body {
 	font-family: 'PT Sans', sans-serif;
-	margin-bottom: 80px;
+	margin-bottom: 50px;
 }
 
 /*
@@ -117,6 +117,11 @@ body {
 	margin-bottom: 10px;
 }
 
+.js-subgroup {
+    display: none;
+    margin-top: 15px;
+}
+
 .downloadCal {
 	float: right;
 	margin-top: 25.5px;
@@ -187,8 +192,8 @@ body {
 		border-bottom: 1px solid #E3E3E3;
 	}
 
-	    .onlyOn {
-	        display: none;
+	    .timetable-subGroupInfo {
+	        font-style: italic;
 	    }
 
 .footer {
