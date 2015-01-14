@@ -9,143 +9,173 @@
 
     <p>На базі даного API було розроблено <a href="">додаток на Android</a>.</p>
 
-		<h3>GET /timetable/</h3>
-	<p>Повертає розклад групи або викладача</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">group</td>
-			<td>ID групи <br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-		<tr>
-			<td>teacher</td>
-			<td>ID викладача <br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-		<tr>
-			<td>periodicity</td>
-			<td>Періодичність:<br>0 — завжди<br>1 — чисельник<br>2 — знаменник<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Результат</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">date_start</td>
-			<td>День початку семестру</td>
-		</tr>
-		<tr>
-			<td>date_end</td>
-			<td>День кінця семестру</td>
-		</tr>
-		<tr>
-			<td>periodicity</td>
-			<td>Періодичність:<br>0 — завжди<br>1 — чисельник<br>2 — знаменник</td>
-		</tr>
-		<tr>
-			<td>day</td>
-			<td>День тижня:<br>0 — понеділок<br>1 — вівторок<br>...<br>6 — неділя</td>
-		</tr>
-		<tr>
-			<td>lesson_type</td>
-			<td>Тип предмета:<br>0 — не задано<br>1 — лекція<br>2 — семінар<br>3 — лабораторна робота<br>4 — консультація<br>5 — екзамен</td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json">http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json</a></code>
+    <p>
+        <h3>GET /timetable/</h3>
+        <p>Повертає розклад групи або викладача</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">group</td>
+                <td>ID групи <br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+            <tr>
+                <td>teacher</td>
+                <td>ID викладача <br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+            <tr>
+                <td>periodicity</td>
+                <td>Періодичність:<br>0 — завжди<br>1 — чисельник<br>2 — знаменник<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Результат</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">date_start</td>
+                <td>День початку семестру</td>
+            </tr>
+            <tr>
+                <td>date_end</td>
+                <td>День кінця семестру</td>
+            </tr>
+            <tr>
+                <td>periodicity</td>
+                <td>Періодичність:<br>0 — завжди<br>1 — чисельник<br>2 — знаменник</td>
+            </tr>
+            <tr>
+                <td>day</td>
+                <td>День тижня:<br>0 — понеділок<br>1 — вівторок<br>...<br>6 — неділя</td>
+            </tr>
+            <tr>
+                <td>lesson_type</td>
+                <td>Тип предмета:<br>0 — не задано<br>1 — лекція<br>2 — семінар<br>3 — лабораторна робота<br>4 — консультація<br>5 — екзамен</td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json">http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json</a></code>
+    </p>
 
 	<hr>
 
-	<h3>GET /department/</h3>
-	<p>Повертає список всіх факультетів університету та timestamp останнього оновлення</p>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/department/?format=json">http://127.0.0.1:8000/api/v1/department/?format=json</a></code>
+    <p>
+        <h3>GET /department/</h3>
+        <p>Повертає список всіх факультетів університету та timestamp останнього оновлення</p>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/department/?format=json">http://127.0.0.1:8000/api/v1/department/?format=json</a></code>
+    </p>
+
 
 	<hr>
 
-	<h3>GET /group/</h3>
-	<p>Повертає список всіх груп, факультет кожної та timestamp останнього оновлення</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">id</td>
-			<td>ID групи<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-		<tr>
-			<td>department</td>
-			<td>ID факультета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/group/?format=json">http://127.0.0.1:8000/api/v1/group/?format=json</a></code>
+    <p>
+       <h3>GET /group/</h3>
+        <p>Повертає список всіх груп, факультет кожної та timestamp останнього оновлення</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">id</td>
+                <td>ID групи<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+            <tr>
+                <td>department</td>
+                <td>ID факультета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/group/?format=json">http://127.0.0.1:8000/api/v1/group/?format=json</a></code>
+    </p>
+
+
 
 	<hr>
 
-	<h3>GET /teacher/</h3>
-	<p>Повертає список всіх викладачів</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">id</td>
-			<td>ID викладача<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-		<tr>
-			<td>department</td>
-			<td>ID факультета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json">http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json</a></code>
+    <p>
+        <h3>GET /teacher/</h3>
+        <p>Повертає список всіх викладачів</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">id</td>
+                <td>ID викладача<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+            <tr>
+                <td>department</td>
+                <td>ID факультета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+	    <code>GET <a href="http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json">http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json</a></code>
+    </p>
+
 
 	<hr>
 
-	<h3>GET /campus/</h3>
-	<p>Повертає список всіх корпусів</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">id</td>
-			<td>ID корпуса<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/campus/?format=json">http://127.0.0.1:8000/api/v1/campus/?format=json</a></code>
+    <p>
+        <h3>GET /campus/</h3>
+        <p>Повертає список всіх корпусів</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">id</td>
+                <td>ID корпуса<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+	    <code>GET <a href="http://127.0.0.1:8000/api/v1/campus/?format=json">http://127.0.0.1:8000/api/v1/campus/?format=json</a></code>
+    </p>
+
 
 	<hr>
 
-	<h3>GET /audience/</h3>
-	<p>Повертає список всіх аудиторій</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">id</td>
-			<td>ID аудиторії<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-		<tr>
-			<td>campus</td>
-			<td>ID корпуса<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json">http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json</a></code>
+    <p>
+        <h3>GET /audience/</h3>
+        <p>Повертає список всіх аудиторій</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">id</td>
+                <td>ID аудиторії<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+            <tr>
+                <td>campus</td>
+                <td>ID корпуса<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json">http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json</a></code>
+    </p>
+
 
 	<hr>
 
-	<h3>GET /lesson/</h3>
-	<p>Повертає список всіх предметів</p>
-	<h4>Параметри</h4>
-	<table class="table">
-		<tr>
-			<td style="width: 20%;">id</td>
-			<td>ID предмета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
-		</tr>
-	</table>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/lesson/?format=json">http://127.0.0.1:8000/api/v1/lesson/?format=json</a></code>
+    <p>
+        <h3>GET /lesson/</h3>
+        <p>Повертає список всіх предметів</p>
+        <h4>Параметри</h4>
+        <table class="table">
+            <tr>
+                <td style="width: 20%;">id</td>
+                <td>ID предмета<br><span class="text-muted"><i>не обов’язковий параметр</i></span></td>
+            </tr>
+        </table>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/lesson/?format=json">http://127.0.0.1:8000/api/v1/lesson/?format=json</a></code>
+    </p>
 
 	<hr>
 
-	<h3>GET /time/</h3>
-	<p>Повертає час початку та кінця пар</p>
-	<h4>Приклад запиту:</h4>
-	<code>GET <a href="http://127.0.0.1:8000/api/v1/time/?format=json">http://127.0.0.1:8000/api/v1/time/?format=json</a></code>
+    <p>
+        <h3>GET /time/</h3>
+        <p>Повертає час початку та кінця пар</p>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/time/?format=json">http://127.0.0.1:8000/api/v1/time/?format=json</a></code>
+    </p>
+
+    <p>
+        <h3>GET /current_week/</h3>
+        <p>Повертає інформацію про поточний тиждень.<br><i>1 – чисельник<br>2 – знаменник</i></p>
+        <h4>Приклад запиту:</h4>
+        <code>GET <a href="http://127.0.0.1:8000/api/v1/current_week/?format=json">http://127.0.0.1:8000/api/v1/current_week/?format=json</a></code>
+    </p>
+
 </div>
 {% endblock %}
