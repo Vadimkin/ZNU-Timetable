@@ -144,6 +144,14 @@ class TimetableResource(ModelResource):
             'teacher': ALL
         }
 
+    def alter_list_data_to_serialize(self, request, data):
+        try:
+            if request.GET.get('group', False) is not False:
+                data['meta']['subgroup_count'] = Timetable.objects.filter(group_id=request.GET['group']).order_by('-subgroup')[0].subgroup
+        except IndexError:
+            pass
+        return data
+
     def dehydrate(self, bundle):
         del bundle.data['lesson']
         del bundle.data['teacher']
