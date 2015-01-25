@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 from django.core.paginator import InvalidPage
+from django.db.models import Max
 from django.http import Http404
 
 from tastypie import fields
@@ -61,6 +62,7 @@ class GroupResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['department']
         bundle.data['department_id'] = bundle.obj.department.id
+        bundle.data['subgroup_count'] = Timetable.objects.filter(group=bundle.obj).aggregate(Max('subgroup'))['subgroup__max']
 
         return bundle
 
