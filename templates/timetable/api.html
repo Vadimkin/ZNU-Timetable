@@ -51,7 +51,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json">http://127.0.0.1:8000/api/v1/timetable/?group=1&format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/timetable/?group=1&format=json">http://{{request.META.HTTP_HOST}}/api/v1/timetable/?group=1&format=json</a></code>
     </p>
 
 	<hr>
@@ -60,7 +60,7 @@
         <h3>GET /department/</h3>
         <p>Повертає список всіх факультетів університету та timestamp останнього оновлення</p>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/department/?format=json">http://127.0.0.1:8000/api/v1/department/?format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/department/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/department/?format=json</a></code>
     </p>
 
 
@@ -81,7 +81,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/group/?format=json">http://127.0.0.1:8000/api/v1/group/?format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/group/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/group/?format=json</a></code>
     </p>
 
 
@@ -103,7 +103,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-	    <code>GET <a href="http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json">http://127.0.0.1:8000/api/v1/teacher/?department=1&format=json</a></code>
+	    <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/teacher/?department=1&format=json">http://{{request.META.HTTP_HOST}}/api/v1/teacher/?department=1&format=json</a></code>
     </p>
 
 
@@ -120,7 +120,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-	    <code>GET <a href="http://127.0.0.1:8000/api/v1/campus/?format=json">http://127.0.0.1:8000/api/v1/campus/?format=json</a></code>
+	    <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/campus/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/campus/?format=json</a></code>
     </p>
 
 
@@ -141,7 +141,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json">http://127.0.0.1:8000/api/v1/audience/?campus=1&format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/audience/?campus=1&format=json">http://{{request.META.HTTP_HOST}}/api/v1/audience/?campus=1&format=json</a></code>
     </p>
 
 
@@ -158,7 +158,7 @@
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/lesson/?format=json">http://127.0.0.1:8000/api/v1/lesson/?format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/lesson/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/lesson/?format=json</a></code>
     </p>
 
 	<hr>
@@ -167,14 +167,14 @@
         <h3>GET /time/</h3>
         <p>Повертає час початку та кінця пар</p>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/time/?format=json">http://127.0.0.1:8000/api/v1/time/?format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/time/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/time/?format=json</a></code>
     </p>
 
     <p>
         <h3>GET /current_week/</h3>
         <p>Повертає інформацію про поточний тиждень.<br><i>1 – чисельник<br>2 – знаменник</i></p>
         <h4>Приклад запиту:</h4>
-        <code>GET <a href="http://127.0.0.1:8000/api/v1/current_week/?format=json">http://127.0.0.1:8000/api/v1/current_week/?format=json</a></code>
+        <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/current_week/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/current_week/?format=json</a></code>
     </p>
 
 </div>
