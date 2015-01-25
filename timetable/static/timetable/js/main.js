@@ -13,7 +13,7 @@ $(document).ready(function() {
              $('.js-subgroup')
                  .append($("<option></option>")
                  .attr("value",value)
-                 .text(value + ' підгрупа'));
+                 .text("Підгрупа №" + value));
         });
         if(subgroups.length > 0) {
             $('.js-subgroup').show();
@@ -22,7 +22,6 @@ $(document).ready(function() {
 
     $('.js-subgroup').on('change', function() {
         currentSubgroup = $(this).val();
-        console.log(currentSubgroup);
         $('.subgroup').not('.subgroup__' + currentSubgroup).slideUp();
         $('.subgroup__' + currentSubgroup).slideDown();
     });

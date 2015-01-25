@@ -13,8 +13,8 @@ v1_api.register(api.TimeResource())
 v1_api.register(api.TimetableResource())
 v1_api.register(api.CurrentWeekResource())
 
-urlpatterns = patterns(
-    url(r'^$', views.IndexView.as_view(), name='index'),
+urlpatterns = patterns('',
+    url(r'^$', views.GroupListView.as_view(), name='group_list'),
     url(r'^map/$', views.MapView.as_view(), name='map'),
     url(r'^teachers/$', views.TeacherListView.as_view(), name='teacher_list'),
     url(r'^teachers/(?P<teacher_id>[0-9]+)/$', views.TeacherDetailView.as_view(), name='teacher_detail'),
