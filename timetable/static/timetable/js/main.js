@@ -24,6 +24,18 @@ $(document).ready(function() {
         currentSubgroup = $(this).val();
         $('.subgroup').not('.subgroup__' + currentSubgroup).slideUp();
         $('.subgroup__' + currentSubgroup).slideDown();
+
+        $('.timetable-subGroupInfo').hide();
+
+        cookieData = getCookie('groupInfo')
+        if(cookieData) {
+            data = JSON.parse(cookieData);
+            groupID = $('.js-myGroup').data('group');
+            if(data['group_id'] == groupID) {
+                data = {'group_id': data['group_id'], 'subgroup_id': currentSubgroup};
+                setCookie('groupInfo', JSON.stringify(data), {'path': '/', 'expires': 60*60*24*365});
+            }
+        }
     });
 
     if($('.js-myGroup').get(0)) {
@@ -31,8 +43,15 @@ $(document).ready(function() {
         if(cookieData) {
             data = JSON.parse(cookieData);
             groupID = $('.js-myGroup').data('group');
+            subGroupIP = data['subgroup_id'];
             if(data['group_id'] != groupID) {
                 $('.js-myGroup').show();
+            }
+            if(subGroupIP != null) {
+                $(".js-subgroup").val(subGroupIP);
+                $('.timetable-subGroupInfo').hide();
+                $('.subgroup').not('.subgroup__' + subGroupIP).hide();
+                $('.subgroup__' + subGroupIP).show();
             }
         } else {
             $('.js-myGroup').show();
@@ -49,7 +68,7 @@ $(document).ready(function() {
 
         $(this).hide();
         setCookie('groupInfo', JSON.stringify(data), {'path': '/', 'expires': 60*60*24*365});
-        showModal('Дякуємо', 'Тепер при вході на головну сторінку сайту буде відображатись Ваш розклад.');
+        showModal('Збережено', 'Тепер при вході на головну сторінку сайту буде відображатись Ваш розклад.');
     });
 });
 

@@ -50,7 +50,8 @@ class GroupResource(ModelResource):
         objects = []
 
         for result in sqs:
-            objects.append({'id': result.id, 'name': result.name, 'department_id': result.department.id, 'last_update': result.last_update})
+            objects.append({'id': result.id, 'name': result.name, 'department_id': result.department.id,
+                            'last_update': result.last_update})
 
         object_list = {
             'objects': objects,
@@ -62,7 +63,11 @@ class GroupResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['department']
         bundle.data['department_id'] = bundle.obj.department.id
-        bundle.data['subgroup_count'] = Timetable.objects.filter(group=bundle.obj).aggregate(Max('subgroup'))['subgroup__max']
+        bundle.data['subgroup_count'] = Timetable.objects.filter(group=bundle.obj).aggregate(Max('subgroup'))[
+            'subgroup__max']
+
+        if not bundle.data['subgroup_count']:
+            bundle.data['subgroup_count'] = 0
 
         return bundle
 
@@ -149,7 +154,8 @@ class TimetableResource(ModelResource):
     def alter_list_data_to_serialize(self, request, data):
         try:
             if request.GET.get('group', False) is not False:
-                data['meta']['subgroup_count'] = Timetable.objects.filter(group_id=request.GET['group']).order_by('-subgroup')[0].subgroup
+                data['meta']['subgroup_count'] = \
+                    Timetable.objects.filter(group_id=request.GET['group']).order_by('-subgroup')[0].subgroup
         except IndexError:
             pass
         return data
