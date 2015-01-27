@@ -18,6 +18,9 @@
 
                 <h3>{{ group.department.name }}</h3>
            {% endifchanged %}
+           {% ifchanged group.course %}
+                <h4>{{ group.course }} курс</h4>
+           {% endifchanged %}
            <div class="oneGroup"><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></div>
         {% endfor %}
     </div>

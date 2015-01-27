@@ -28,8 +28,17 @@ class Department(models.Model):
 
 
 class Group(models.Model):
+    COURSE_TYPES = (
+        (1, '1 курс'),
+        (2, '2 курс'),
+        (3, '3 курс'),
+        (4, '4 курс'),
+        (5, '5 курс'),
+    )
+
     department = models.ForeignKey(Department, verbose_name="Факультет")
     name = models.CharField(max_length=500, null=False, verbose_name="Номер групи")
+    course = models.IntegerField(default=1, choices=COURSE_TYPES)
     last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
@@ -38,6 +47,7 @@ class Group(models.Model):
     class Meta:
         verbose_name = "група"
         verbose_name_plural = "групи"
+        ordering = ["course", ]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
@@ -198,7 +208,6 @@ class Timetable(models.Model):
         (1, '1 підгрупа'),
         (2, '2 підгрупа'),
         (3, '3 підгрупа'),
-
     )
 
     teacher = models.ForeignKey(Teacher, verbose_name="Викладач", null=True)
