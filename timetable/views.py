@@ -1,15 +1,26 @@
 # -*- coding: utf-8 -*-
 from itertools import chain
-from django.http import request
+import json
+import urllib
 
-from django.shortcuts import render, get_object_or_404
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.views import generic
 from timetable.models import Teacher, Timetable, Group
 from timetable.utils import get_current_week
 
 
-class IndexView(generic.TemplateView):
-    template_name = 'timetable/index.html'
+class IndexListView(generic.ListView):
+    model = Group
+    template_name = 'timetable/group_list.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super(IndexListView, self).dispatch(request, **kwargs)
+        group_info = request.COOKIES.get('groupInfo')
+        if group_info:
+            group_id = json.loads(urllib.unquote(group_info))['group_id']
+            return HttpResponseRedirect(reverse('group_detail', args=[group_id]))
+        return response
 
 
 class MapView(generic.TemplateView):
@@ -38,7 +49,8 @@ class TeacherDetailView(generic.DetailView):
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                                    periodicity__in=[0, get_current_week(2)]).order_by('day', 'period', )
+                                                    periodicity__in=[0, get_current_week(2)]).order_by('day',
+                                                                                                       'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
         context['timetable'] = list(chain(timetable_first, timetable_second))
@@ -61,7 +73,8 @@ class GroupDetailView(generic.DetailView):
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
-                                                    periodicity__in=[0, get_current_week(2)]).order_by('day', 'period', )
+                                                    periodicity__in=[0, get_current_week(2)]).order_by('day',
+                                                                                                       'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
         context['timetable'] = list(chain(timetable_first, timetable_second))

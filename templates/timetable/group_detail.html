@@ -10,10 +10,11 @@
         <h2>Розклад групи «{{ object.name }}»</h2>
     </div>
 
-    <div class="pull-right">
+    <div class="pull-right groupName-info form-inline">
         <select class="form-control js-subgroup">
           <option disabled="disabled" selected="selected">Оберіть підгрупу</option>
         </select>
+        <button class="btn btn-default btn-inline btn-myGroup js-myGroup" data-group="{{ object.id }}">Це моя група</button>
     </div>
 </div><!-- /.container -->
 

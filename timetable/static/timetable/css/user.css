@@ -27,81 +27,6 @@ body {
 .site-wrapper-inner {
 	vertical-align: middle;
 }
-.cover-container {
-	margin-right: auto;
-	margin-left: auto;
-}
-
-.coverPage,
-.coverPage body {
-	height: 100%;
-}
-
-
-.coverPage body {
-	background: url('../img/znu-1k.jpg');
-	background-size: cover;
-}
-
-	.cover {
-		text-align: center;
-	}
-
-		.cover-heading {
-			font-size: 60px;
-			color: #fff;
-			font-weight: bold;
-			font-family: "PT Sans Caption";
-		}
-
-			@media (max-width: 767px) {
-			  .cover-heading {
-			    font-size: 30px;
-			  }
-			}
-
-		.cover-suphead {
-			font-family: "PT Sans";
-			font-size: 27px;
-		}
-
-			@media (max-width: 767px) {
-			  .cover-suphead {
-			    font-size: 20px;
-			  }
-			}
-
-		.cover-input {
-			background: #fff url('../img/search-icon.png') no-repeat 20px 50%;
-			margin: 20px auto 0;
-			padding-left: 60px;
-			width: 380px;
-			height: 55px;
-			line-height: 55px;
-			font-size: 17px;
-			border-radius: 30px;
-		}
-
-			@media (max-width: 767px) {
-			  .cover-input {
-			  	background: #fff;
-			  	line-height: 35px;
-			  	padding: 0 20px;
-			    width: 250px;
-				height: 35px;
-			  }
-			}
-
-		.cover-links {
-			opacity: 0.75;
-			color: #fff;
-			margin-top: 20px;
-			font-size: 15px;
-		}
-
-			.cover-links a {
-				color: #fff;
-			}
 
 .campusMap, .campusMap body {
 	height: 100%;
@@ -111,16 +36,23 @@ body {
 	}
 
 
-
 .groupName {
 	/*margin-top: 5px;*/
 	margin-bottom: 10px;
 }
 
-.js-subgroup {
-    display: none;
-    margin-top: 15px;
-}
+    .groupName-info {
+        margin-top: 15px;
+    }
+
+        .js-subgroup {
+            display: none;
+        }
+
+        .btn-myGroup {
+            display: none;
+            margin-left: 10px;
+        }
 
 .downloadCal {
 	float: right;
