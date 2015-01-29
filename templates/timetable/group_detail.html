@@ -53,6 +53,8 @@
             {% else %}
                 </div> <!-- (-) timetable-lesson -->
             {% endif %}
+        {% empty %}
+            <h3>На жаль, розклад для даної групи ще не доданий</h3>
         {% endfor %}
     </div>
 </div>
