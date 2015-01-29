@@ -45,7 +45,7 @@ body {
         margin-top: 15px;
     }
 
-        .js-subgroup {
+        .form-inline .js-subgroup {
             display: none;
         }
 
