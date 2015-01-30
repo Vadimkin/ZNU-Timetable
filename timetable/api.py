@@ -136,7 +136,7 @@ class TimeResource(ModelResource):
 
 
 class TimetableResource(ModelResource):
-    teacher = fields.ForeignKey(TeacherResource, 'teacher')
+    teacher = fields.ForeignKey(TeacherResource, 'teacher', null=True, blank=True)
     lesson = fields.ForeignKey(LessonResource, 'lesson')
     group = fields.ForeignKey(GroupResource, 'group')
 
@@ -165,10 +165,19 @@ class TimetableResource(ModelResource):
         del bundle.data['teacher']
         del bundle.data['group']
 
-        bundle.data['teacher_id'] = bundle.obj.teacher.id
+        try:
+            bundle.data['teacher_id'] = bundle.obj.teacher.id
+        except AttributeError:
+            bundle.data['teacher_id'] = None
+
         bundle.data['group_id'] = bundle.obj.group.id
         bundle.data['lesson_id'] = bundle.obj.lesson.id
-        bundle.data['audience_id'] = bundle.obj.audience.id
+
+        try:
+            bundle.data['audience_id'] = bundle.obj.audience.id
+        except AttributeError:
+            bundle.data['audience_id'] = None
+
         if bundle.obj.period:
             bundle.data['time_id'] = bundle.obj.period.id
 

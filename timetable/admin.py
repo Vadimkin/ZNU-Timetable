@@ -48,6 +48,7 @@ class LessonForm(forms.ModelForm):
 
     class Meta:
         model = Lesson
+        fields = "__all__"
 
     def clean_name(self):
         name = self.cleaned_data['name']
