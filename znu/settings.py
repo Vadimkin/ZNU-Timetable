@@ -114,3 +114,7 @@ TEMPLATE_DIRS = (
 # Tastypie
 
 API_LIMIT_PER_PAGE = 0
+
+# Grappelli
+
+GRAPPELLI_ADMIN_TITLE = "Розклад ЗНУ"

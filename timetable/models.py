@@ -158,7 +158,7 @@ class Time(models.Model):
 
     class Meta:
         verbose_name = "час"
-        verbose_name_plural = "часу"
+        verbose_name_plural = "години"
 
 
 class Timetable(models.Model):
