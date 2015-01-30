@@ -69,6 +69,7 @@ class Teacher(models.Model):
     class Meta:
         verbose_name = "викладач"
         verbose_name_plural = "викладачі"
+        ordering = ["name"]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
@@ -112,6 +113,7 @@ class Audience(models.Model):
     class Meta:
         verbose_name = "аудиторія"
         verbose_name_plural = "аудиторії"
+        ordering = ["campus", "audience"]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
@@ -133,10 +135,9 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "предмет"
         verbose_name_plural = "предмети"
+        ordering = ["name"]
 
     def save(self, *args, **kwargs):
-        self.lesson.save()
-
         timetable = Timetable.objects.filter(lesson_id=self.id)
         for one_lesson in timetable:
             one_lesson.save()
@@ -210,16 +211,16 @@ class Timetable(models.Model):
         (3, '3 підгрупа'),
     )
 
-    teacher = models.ForeignKey(Teacher, verbose_name="Викладач", null=True)
+    teacher = models.ForeignKey(Teacher, verbose_name="Викладач", blank=True, null=True)
     group = models.ForeignKey(Group, verbose_name="Група")
     subgroup = models.IntegerField(max_length=1, choices=SUBGROUP_TYPES, default=0, verbose_name="Підгрупа")
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
     day = models.IntegerField(max_length=1, choices=DAYS_CHOICES, default=MONDAY_DAY, verbose_name="День")
-    audience = models.ForeignKey(Audience, verbose_name="Аудиторія")
+    audience = models.ForeignKey(Audience, verbose_name="Аудиторія", blank=True, null=True)
     periodicity = models.IntegerField(max_length=1, choices=PERIODICITY_CHOICES, default=ALWAYS_LESSON,
                                       verbose_name="Періодичність")
-    date_start = models.DateField(verbose_name="Початок пар")
-    date_end = models.DateField(verbose_name="Кінець пар")
+    date_start = models.DateField(verbose_name="Початок пар", default=datetime.date(2015, 2, 2))
+    date_end = models.DateField(verbose_name="Кінець пар", default=datetime.date(2015, 5, 30))
     period = models.ForeignKey(Time, verbose_name="Час пар", null=True)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
                                       verbose_name="Тип предмету")
