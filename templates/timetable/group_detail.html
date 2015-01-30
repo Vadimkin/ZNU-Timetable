@@ -43,7 +43,7 @@
 
                 <div class="row {% if lesson.subgroup != 0 %}subgroup subgroup__{{ lesson.subgroup }}" data-subgroup="{{ lesson.subgroup }}"{% else %}"{% endif %}>
                     <div class="col-md-1 hidden-xs hidden-sm timetable-time">{{ lesson.period.get_time_without_seconds }}</div>
-                    <div class="col-md-11 timetable-info"><span class="visible-xs-inline visible-sm-inline"><b>{{ lesson.period.get_time_without_seconds }}:</b></span> {% if lesson.subgroup != 0 %}<span class="timetable-subGroupInfo">Підгрупа {{ lesson.subgroup }} — </span>{% endif %} {{ lesson.lesson.name }} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}). Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a></div>
+                    <div class="col-md-11 timetable-info"><span class="visible-xs-inline visible-sm-inline"><b>{{ lesson.period.get_time_without_seconds }}:</b></span> {% if lesson.subgroup != 0 %}<span class="timetable-subGroupInfo">Підгрупа {{ lesson.subgroup }} — </span>{% endif %} {{ lesson.lesson.name }}{% if lesson.audience %} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}).{% endif %}{% if lesson.teacher %} Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a>{% endif %}</div>
                 </div>
 
                 {% if forloop.last %}
