@@ -47,7 +47,7 @@ $(document).ready(function() {
             if(data['group_id'] != groupID) {
                 $('.js-myGroup').show();
             }
-            if(subGroupIP != null) {
+            if(subGroupIP != null && data['group_id'] == groupID) {
                 $(".js-subgroup").val(subGroupIP);
                 $('.timetable-subGroupInfo').hide();
                 $('.subgroup').not('.subgroup__' + subGroupIP).hide();

@@ -21,7 +21,7 @@
            {% ifchanged group.course %}
                 <h4>{{ group.course }} курс</h4>
            {% endifchanged %}
-           <div class="oneGroup"><a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></div>
+           <div class="oneGroup">— <a href="{% url 'group_detail' group.id %}">{{ group.name }}</a></div>
         {% endfor %}
     </div>
 </div>
