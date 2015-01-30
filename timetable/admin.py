@@ -12,11 +12,21 @@ class CampusAdmin(admin.ModelAdmin):
 
 
 class TimetableAdmin(admin.ModelAdmin):
-    fields = (('group', 'subgroup'), 'lesson', 'teacher', 'day', 'audience', 'periodicity', 'period', 'lesson_type',
+    fields = (('group', 'subgroup'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity', 'lesson_type',
               ('date_start', 'date_end'))
     list_display = ('id', 'get_group', 'lesson', 'last_update', 'teacher')
     list_filter = ('group', 'group__department', 'lesson', 'teacher')
     exclude = ('last_update',)
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)
+
+        previous_data = Timetable.objects.order_by('-pk')[0]
+        form.base_fields['group'].initial = previous_data.group
+        form.base_fields['day'].initial = previous_data.day
+        form.base_fields['period'].initial = previous_data.period
+
+        return form
 
     def get_group(self, obj):
         return "{0} ({1})".format(obj.group.name, obj.group.department)
