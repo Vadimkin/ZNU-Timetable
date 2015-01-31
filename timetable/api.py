@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
 from django.core.paginator import InvalidPage
+from django.core.urlresolvers import reverse
 from django.db.models import Max
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
@@ -150,6 +151,32 @@ class TimetableResource(ModelResource):
             'group': ALL,
             'teacher': ALL_WITH_RELATIONS,
         }
+
+    def prepend_urls(self):
+        return [
+            url(r"^(?P<resource_name>%s)/teachers_by_group%s$" % (self._meta.resource_name, trailing_slash()),
+                self.wrap_view('get_teachers_by_group'), name="api_get_teachers_by_group"),
+        ]
+
+    def get_teachers_by_group(self, request, **kwargs):
+        self.method_check(request, allowed=['get'])
+        self.throttle_check(request)
+
+        # TODO Validate ID
+        sqs = Timetable.objects.filter(group_id=request.GET.get('group'))
+
+        objects = []
+
+        for result in sqs:
+            if result.teacher is not None and result.teacher.id not in objects:
+                objects.append(result.teacher.id)
+
+        object_list = {
+            'objects': objects,
+        }
+
+        self.log_throttled_access(request)
+        return HttpResponseRedirect(reverse('api_dispatch_list', kwargs={'resource_name': 'timetable', 'api_name': 'v1'}) + "?format=json&teacher__in=" + ",".join("{0}".format(n) for n in objects))
 
     def alter_list_data_to_serialize(self, request, data):
         try:
