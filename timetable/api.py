@@ -148,7 +148,7 @@ class TimetableResource(ModelResource):
         filtering = {
             'periodicity': ALL_WITH_RELATIONS,
             'group': ALL,
-            'teacher': ALL
+            'teacher': ALL_WITH_RELATIONS,
         }
 
     def alter_list_data_to_serialize(self, request, data):
