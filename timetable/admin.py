@@ -17,6 +17,7 @@ class TimetableAdmin(admin.ModelAdmin):
     list_display = ('id', 'get_group', 'lesson', 'last_update', 'teacher')
     list_filter = ('group', 'group__department', 'lesson', 'teacher')
     exclude = ('last_update',)
+    # save_as = True
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)

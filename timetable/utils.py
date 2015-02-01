@@ -11,3 +11,5 @@ def get_current_week(numerator=None):
             return weeks_order[::-1][0]
     else:
         return current_week
+
+first_day_of_week = datetime.date.today() - datetime.timedelta(days=datetime.date.today().weekday())
