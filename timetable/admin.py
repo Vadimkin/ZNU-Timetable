@@ -12,7 +12,7 @@ class CampusAdmin(admin.ModelAdmin):
 
 
 class TimetableAdmin(admin.ModelAdmin):
-    fields = (('group', 'subgroup'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity', 'lesson_type',
+    fields = (('group', 'subgroup', 'free_trajectory'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity', 'lesson_type',
               ('date_start', 'date_end'))
     list_display = ('id', 'get_group', 'lesson', 'last_update', 'teacher')
     list_filter = ('group', 'group__department', 'lesson', 'teacher')
