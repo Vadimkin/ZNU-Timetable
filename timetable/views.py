@@ -50,12 +50,12 @@ class TeacherDetailView(generic.DetailView):
 
         timetable_first = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                    periodicity__in=[0, get_current_week(1)],
-                                                   date_start__gt=first_day_of_week).order_by('day', 'period', )
+                                                   date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                     periodicity__in=[0, get_current_week(2)],
-                                                    date_start__gt=first_day_of_week).order_by('day',
+                                                    date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day',
                                                                                                'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
@@ -77,12 +77,12 @@ class GroupDetailView(generic.DetailView):
 
         timetable_first = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                    periodicity__in=[0, get_current_week(1)],
-                                                   date_start__gt=first_day_of_week).order_by('day', 'period', )
+                                                   date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                     periodicity__in=[0, get_current_week(2)],
-                                                    date_start__gt=first_day_of_week).order_by('day',
+                                                    date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day',
                                                                                                'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
