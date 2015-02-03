@@ -84,6 +84,14 @@ body {
 		vertical-align: top;
 	}
 
+	        @media (-webkit-min-device-pixel-ratio: 2){
+	            .calendar-icon {
+	                background: url('../img/calendar@2x.png') 50% 50% no-repeat;
+	                background-color: #3A99FF;
+	                background-size: 18px 18px;
+	            }
+            }
+
 	.day {
 		margin-bottom: 20px;
 	}
@@ -123,6 +131,10 @@ body {
 		line-height: 45px;
 		border-bottom: 1px solid #E3E3E3;
 	}
+
+	    .timetable-free_trajectory {
+	        font-style: italic;
+	    }
 
 	    .timetable-subGroupInfo {
 	        font-style: italic;
