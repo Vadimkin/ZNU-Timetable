@@ -50,15 +50,33 @@ class TeacherDetailView(generic.DetailView):
 
         timetable_first = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                    periodicity__in=[0, get_current_week(1)],
-                                                   date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day', 'period', )
+                                                   date_start__lte=first_day_of_week,
+                                                   date_end__gte=first_day_of_week).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
+
+            if one_lesson.teacher and one_lesson.teacher.name == "—":
+                one_lesson.teacher.name = None
+
+            if one_lesson.campus and one_lesson.campus.name == "—":
+                one_lesson.campus = None
+                one_lesson.audience = None
+
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                     periodicity__in=[0, get_current_week(2)],
-                                                    date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day',
-                                                                                               'period', )
+                                                    date_start__lte=first_day_of_week,
+                                                    date_end__gte=first_day_of_week).order_by('day',
+                                                                                              'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
+
+            if one_lesson.teacher and one_lesson.teacher.name == "—":
+                one_lesson.teacher.name = None
+
+            if one_lesson.campus and one_lesson.campus.name == "—":
+                one_lesson.campus = None
+                one_lesson.audience = None
+
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
 
@@ -77,15 +95,24 @@ class GroupDetailView(generic.DetailView):
 
         timetable_first = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                    periodicity__in=[0, get_current_week(1)],
-                                                   date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day', 'period', )
+                                                   date_start__lte=first_day_of_week,
+                                                   date_end__gte=first_day_of_week).order_by('day', 'period', )
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
+
+            if one_lesson.teacher and one_lesson.teacher.name == "—":
+                one_lesson.teacher.name = None
+
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                     periodicity__in=[0, get_current_week(2)],
-                                                    date_start__lte=first_day_of_week, date_end__gte=first_day_of_week).order_by('day',
-                                                                                               'period', )
+                                                    date_start__lte=first_day_of_week,
+                                                    date_end__gte=first_day_of_week).order_by('day',
+                                                                                              'period', )
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
+
+            if one_lesson.teacher and one_lesson.teacher.name == "—":
+                one_lesson.teacher.name = None
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
 
