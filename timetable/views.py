@@ -2,15 +2,12 @@
 from itertools import chain
 import json
 import urllib
-import datetime
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
-from django.utils import dateformat
 from django.views import generic
 from timetable.models import Teacher, Timetable, Group
 from timetable.utils import get_current_week, first_day_of_week
-from znu import settings
 
 
 class IndexListView(generic.ListView):
@@ -45,6 +42,10 @@ class TeacherDetailView(generic.DetailView):
     slug_field = 'id'
     slug_url_kwarg = 'teacher_id'
 
+    def __init__(self, **kwargs):
+        super(TeacherDetailView, self).__init__(**kwargs)
+        self.kwargs = None
+
     def get_context_data(self, **kwargs):
         context = super(TeacherDetailView, self).get_context_data(**kwargs)
 
@@ -55,11 +56,10 @@ class TeacherDetailView(generic.DetailView):
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
 
-            if one_lesson.teacher and one_lesson.teacher.name == "—":
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
                 one_lesson.teacher.name = None
 
-            if one_lesson.campus and one_lesson.campus.name == "—":
-                one_lesson.campus = None
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
                 one_lesson.audience = None
 
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
@@ -70,11 +70,10 @@ class TeacherDetailView(generic.DetailView):
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
 
-            if one_lesson.teacher and one_lesson.teacher.name == "—":
-                one_lesson.teacher.name = None
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher = None
 
-            if one_lesson.campus and one_lesson.campus.name == "—":
-                one_lesson.campus = None
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
                 one_lesson.audience = None
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
@@ -90,6 +89,10 @@ class GroupDetailView(generic.DetailView):
     slug_field = 'id'
     slug_url_kwarg = 'group_id'
 
+    def __init__(self, **kwargs):
+        super(GroupDetailView, self).__init__(**kwargs)
+        self.kwargs = None
+
     def get_context_data(self, **kwargs):
         context = super(GroupDetailView, self).get_context_data(**kwargs)
 
@@ -100,8 +103,11 @@ class GroupDetailView(generic.DetailView):
         for one_lesson in timetable_first:
             one_lesson.week = get_current_week(1)
 
-            if one_lesson.teacher and one_lesson.teacher.name == "—":
-                one_lesson.teacher.name = None
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher = None
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience = None
 
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                     periodicity__in=[0, get_current_week(2)],
@@ -111,8 +117,12 @@ class GroupDetailView(generic.DetailView):
         for one_lesson in timetable_second:
             one_lesson.week = get_current_week(2)
 
-            if one_lesson.teacher and one_lesson.teacher.name == "—":
-                one_lesson.teacher.name = None
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher = None
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience = None
+
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
 
