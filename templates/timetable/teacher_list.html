@@ -11,14 +11,16 @@
 <div class="timetable">
     <div class="container">
         {% for teacher in object_list %}
-            {% ifchanged teacher.first_letter %}
-                {% if forloop.counter != 1 %}
-                    <hr>
-                {% endif %}
+            {% if teacher.name != "—" %}
+                {% ifchanged teacher.first_letter %}
+                    {% if forloop.counter != 1 %}
+                        <hr>
+                    {% endif %}
 
-                <h3>{{ teacher.first_letter }}</h3>
-           {% endifchanged %}
-           <div class="oneTeacher"><a href="{% url 'teacher_detail' teacher.id %}">{{ teacher.name }}</a></div>
+                    <h3>{{ teacher.first_letter }}</h3>
+               {% endifchanged %}
+               <div class="oneTeacher"><a href="{% url 'teacher_detail' teacher.id %}">{{ teacher.name }}</a></div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
