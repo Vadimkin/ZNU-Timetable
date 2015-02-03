@@ -224,7 +224,7 @@ class Timetable(models.Model):
     period = models.ForeignKey(Time, verbose_name="Час пар", null=True)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
                                       verbose_name="Тип предмету")
-    free_trajectory = models.BooleanField(default=0, verbose_name="Вільна траекторія")
+    free_trajectory = models.BooleanField(default=False, verbose_name="Вільна траекторія")
     last_update = models.IntegerField(default=int(time.time()))
 
     def __unicode__(self):
