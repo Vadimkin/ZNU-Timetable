@@ -83,6 +83,12 @@ class TeacherResource(ModelResource):
             'id': ALL_WITH_RELATIONS,
         }
 
+    def dehydrate(self, bundle):
+        if bundle.data['id'] == 50:  # return null teacher as empty variable
+            bundle.data['name'] = ''
+
+        return bundle
+
 
 class CampusResource(ModelResource):
     class Meta:
@@ -92,6 +98,12 @@ class CampusResource(ModelResource):
         filtering = {
             'id': ALL_WITH_RELATIONS,
         }
+
+    def dehydrate(self, bundle):
+        if bundle.data['id'] == 9:  # return null campus as empty variable
+            bundle.data['name'] = ''
+
+        return bundle
 
 
 class AudienceResource(ModelResource):
@@ -110,6 +122,9 @@ class AudienceResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['campus']
         bundle.data['campus_id'] = bundle.obj.campus.id
+
+        if bundle.data['campus_id'] == 9:  # return null audience as empty variable
+            bundle.data['audience'] = ''
 
         return bundle
 
@@ -171,12 +186,10 @@ class TimetableResource(ModelResource):
             if result.teacher is not None and result.teacher.id not in objects:
                 objects.append(result.teacher.id)
 
-        object_list = {
-            'objects': objects,
-        }
-
         self.log_throttled_access(request)
-        return HttpResponseRedirect(reverse('api_dispatch_list', kwargs={'resource_name': 'timetable', 'api_name': 'v1'}) + "?format=json&teacher__in=" + ",".join("{0}".format(n) for n in objects))
+        return HttpResponseRedirect(reverse('api_dispatch_list', kwargs={'resource_name': 'timetable',
+                                                                         'api_name': 'v1'}) + "?format=json&teacher__in=" + ",".join(
+            "{0}".format(n) for n in objects))
 
     def alter_list_data_to_serialize(self, request, data):
         try:
