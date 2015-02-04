@@ -57,10 +57,10 @@ class TeacherDetailView(generic.DetailView):
             one_lesson.week = get_current_week(1)
 
             if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher.name = None
+                one_lesson.teacher_id = 50
 
             if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience = None
+                one_lesson.audience_id = 40
 
         timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                     periodicity__in=[0, get_current_week(2)],
@@ -71,10 +71,10 @@ class TeacherDetailView(generic.DetailView):
             one_lesson.week = get_current_week(2)
 
             if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher = None
+                one_lesson.teacher_id = 50
 
             if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience = None
+                one_lesson.audience_id = 40
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
@@ -104,10 +104,10 @@ class GroupDetailView(generic.DetailView):
             one_lesson.week = get_current_week(1)
 
             if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher = None
+                one_lesson.teacher_id = 50
 
             if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience = None
+                one_lesson.audience_id = 40
 
         timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
                                                     periodicity__in=[0, get_current_week(2)],
@@ -118,10 +118,10 @@ class GroupDetailView(generic.DetailView):
             one_lesson.week = get_current_week(2)
 
             if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher = None
+                one_lesson.teacher_id = 50
 
             if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience = None
+                one_lesson.audience_id = 40
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
