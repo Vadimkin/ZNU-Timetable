@@ -46,35 +46,27 @@ class TeacherDetailView(generic.DetailView):
         super(TeacherDetailView, self).__init__(**kwargs)
         self.kwargs = None
 
+    def get_teacher_timetable(self, current_week):
+        timetable = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
+                                             periodicity__in=[0, current_week],
+                                             date_start__lte=first_day_of_week,
+                                             date_end__gte=first_day_of_week).order_by('day', 'period', )
+        for one_lesson in timetable:
+            one_lesson.week = current_week
+
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher_id = 50
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience_id = 40
+
+        return timetable
+
     def get_context_data(self, **kwargs):
         context = super(TeacherDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                                   periodicity__in=[0, get_current_week(1)],
-                                                   date_start__lte=first_day_of_week,
-                                                   date_end__gte=first_day_of_week).order_by('day', 'period', )
-        for one_lesson in timetable_first:
-            one_lesson.week = get_current_week(1)
-
-            if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher_id = 50
-
-            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience_id = 40
-
-        timetable_second = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                                    periodicity__in=[0, get_current_week(2)],
-                                                    date_start__lte=first_day_of_week,
-                                                    date_end__gte=first_day_of_week).order_by('day',
-                                                                                              'period', )
-        for one_lesson in timetable_second:
-            one_lesson.week = get_current_week(2)
-
-            if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher_id = 50
-
-            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience_id = 40
+        timetable_first = self.get_teacher_timetable(get_current_week(1))
+        timetable_second = self.get_teacher_timetable(get_current_week(2))
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
@@ -93,35 +85,28 @@ class GroupDetailView(generic.DetailView):
         super(GroupDetailView, self).__init__(**kwargs)
         self.kwargs = None
 
+    def get_group_timetable(self, current_week):
+        timetable = Timetable.objects.filter(group_id=self.kwargs['group_id'],
+                                             periodicity__in=[0, current_week],
+                                             date_start__lte=first_day_of_week,
+                                             date_end__gte=first_day_of_week).order_by('day', 'period', )
+
+        for one_lesson in timetable:
+            one_lesson.week = current_week
+
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher_id = 50
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience_id = 40
+
+        return timetable
+
     def get_context_data(self, **kwargs):
         context = super(GroupDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = Timetable.objects.filter(group_id=self.kwargs['group_id'],
-                                                   periodicity__in=[0, get_current_week(1)],
-                                                   date_start__lte=first_day_of_week,
-                                                   date_end__gte=first_day_of_week).order_by('day', 'period', )
-        for one_lesson in timetable_first:
-            one_lesson.week = get_current_week(1)
-
-            if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher_id = 50
-
-            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience_id = 40
-
-        timetable_second = Timetable.objects.filter(group_id=self.kwargs['group_id'],
-                                                    periodicity__in=[0, get_current_week(2)],
-                                                    date_start__lte=first_day_of_week,
-                                                    date_end__gte=first_day_of_week).order_by('day',
-                                                                                              'period', )
-        for one_lesson in timetable_second:
-            one_lesson.week = get_current_week(2)
-
-            if one_lesson.teacher and one_lesson.teacher.name == u"—":
-                one_lesson.teacher_id = 50
-
-            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
-                one_lesson.audience_id = 40
+        timetable_first = self.get_group_timetable(get_current_week(1))
+        timetable_second = self.get_group_timetable(get_current_week(2))
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
