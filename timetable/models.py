@@ -211,12 +211,12 @@ class Timetable(models.Model):
         (3, '3 підгрупа'),
     )
 
-    teacher = models.ForeignKey(Teacher, verbose_name="Викладач", blank=True, null=True)
+    teacher = models.ForeignKey(Teacher, verbose_name="Викладач")
     group = models.ForeignKey(Group, verbose_name="Група")
     subgroup = models.IntegerField(max_length=1, choices=SUBGROUP_TYPES, default=0, verbose_name="Підгрупа")
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
     day = models.IntegerField(max_length=1, choices=DAYS_CHOICES, default=MONDAY_DAY, verbose_name="День")
-    audience = models.ForeignKey(Audience, verbose_name="Аудиторія", blank=True, null=True)
+    audience = models.ForeignKey(Audience, verbose_name="Аудиторія")
     periodicity = models.IntegerField(max_length=1, choices=PERIODICITY_CHOICES, default=ALWAYS_LESSON,
                                       verbose_name="Періодичність")
     date_start = models.DateField(verbose_name="Початок пар", default=datetime.date(2015, 2, 2))

@@ -12,12 +12,20 @@ class CampusAdmin(admin.ModelAdmin):
 
 
 class TimetableAdmin(admin.ModelAdmin):
-    fields = (('group', 'subgroup', 'free_trajectory'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity', 'lesson_type',
+    fields = (('group', 'subgroup', 'free_trajectory'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity',
+              'lesson_type',
               ('date_start', 'date_end'))
-    list_display = ('id', 'get_group', 'lesson', 'last_update', 'teacher')
-    list_filter = ('group', 'group__department', 'lesson', 'teacher')
+    list_display = ('id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity')
+    list_filter = ('group__department', 'group', 'lesson', 'teacher', 'day')
     exclude = ('last_update',)
-    # save_as = True
+
+
+    def get_colored_day(self, instance):
+        colors = ("#673AB7", "#9C27B0", "#1976D2", "#0277BD", "#009688", "#795548", "#263238")
+        return "<span style='color: {0}; font-weight: bold;'>{1}</span>".format(colors[instance.day], instance.DAYS_CHOICES[instance.day][1])
+
+    get_colored_day.allow_tags = True
+    get_colored_day.short_description = 'День тижня'
 
     def get_form(self, request, obj=None, **kwargs):
         form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)
