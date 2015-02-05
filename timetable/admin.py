@@ -16,7 +16,7 @@ class TimetableAdmin(admin.ModelAdmin):
               'lesson_type',
               ('date_start', 'date_end'))
     list_display = ('id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity')
-    list_filter = ('group__department', 'group', 'lesson', 'teacher', 'day')
+    list_filter = ('group', 'lesson', 'teacher', 'day')
     exclude = ('last_update',)
 
 
@@ -31,14 +31,17 @@ class TimetableAdmin(admin.ModelAdmin):
         form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)
 
         previous_data = Timetable.objects.order_by('-pk')[0]
-        form.base_fields['group'].initial = previous_data.group
+        # form.base_fields['group'].initial = previous_data.group
         form.base_fields['day'].initial = previous_data.day
         form.base_fields['period'].initial = previous_data.period
 
         return form
 
     def get_group(self, obj):
-        return "{0} ({1})".format(obj.group.name, obj.group.department)
+        result = ""
+        for one_group in obj.group.all():
+            result += "{0} ({1})".format(one_group.name, one_group.department)
+        return result
 
     get_group.admin_order_field = 'Група'
     get_group.short_description = 'Група'

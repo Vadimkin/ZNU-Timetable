@@ -154,7 +154,7 @@ class TimeResource(ModelResource):
 class TimetableResource(ModelResource):
     teacher = fields.ForeignKey(TeacherResource, 'teacher', null=True, blank=True)
     lesson = fields.ForeignKey(LessonResource, 'lesson')
-    group = fields.ForeignKey(GroupResource, 'group')
+    group = fields.ManyToManyField(GroupResource, 'group')
 
     class Meta:
         queryset = Timetable.objects.all()
@@ -178,7 +178,7 @@ class TimetableResource(ModelResource):
         self.throttle_check(request)
 
         # TODO Validate ID
-        sqs = Timetable.objects.filter(group_id=request.GET.get('group'))
+        sqs = Timetable.objects.filter(group=request.GET.get('group'))
 
         objects = []
 
@@ -195,7 +195,7 @@ class TimetableResource(ModelResource):
         try:
             if request.GET.get('group', False) is not False:
                 data['meta']['subgroup_count'] = \
-                    Timetable.objects.filter(group_id=request.GET['group']).order_by('-subgroup')[0].subgroup
+                    Timetable.objects.filter(group=request.GET['group']).order_by('-subgroup')[0].subgroup
         except IndexError:
             pass
         return data
@@ -203,14 +203,18 @@ class TimetableResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['lesson']
         del bundle.data['teacher']
-        del bundle.data['group']
+        # del bundle.data['group']
 
         try:
             bundle.data['teacher_id'] = bundle.obj.teacher.id
         except AttributeError:
             bundle.data['teacher_id'] = None
 
-        bundle.data['group_id'] = bundle.obj.group.id
+        bundle.data['group'] = []
+
+        for one_group in bundle.obj.group.all():
+            bundle.data['group'].append(one_group.id)
+
         bundle.data['lesson_id'] = bundle.obj.lesson.id
 
         try:

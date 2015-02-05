@@ -86,7 +86,7 @@ class GroupDetailView(generic.DetailView):
         self.kwargs = None
 
     def get_group_timetable(self, current_week):
-        timetable = Timetable.objects.filter(group_id=self.kwargs['group_id'],
+        timetable = Timetable.objects.filter(group=self.kwargs['group_id'],
                                              periodicity__in=[0, current_week],
                                              date_start__lte=first_day_of_week,
                                              date_end__gte=first_day_of_week).order_by('day', 'period', )

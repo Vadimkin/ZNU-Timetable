@@ -212,7 +212,7 @@ class Timetable(models.Model):
     )
 
     teacher = models.ForeignKey(Teacher, verbose_name="Викладач")
-    group = models.ForeignKey(Group, verbose_name="Група")
+    group = models.ManyToManyField(Group, verbose_name="Група")
     subgroup = models.IntegerField(max_length=1, choices=SUBGROUP_TYPES, default=0, verbose_name="Підгрупа")
     lesson = models.ForeignKey(Lesson, verbose_name="Предмет")
     day = models.IntegerField(max_length=1, choices=DAYS_CHOICES, default=MONDAY_DAY, verbose_name="День")
