@@ -241,6 +241,9 @@ class Timetable(models.Model):
     def get_readable_week_day(self):
         return self.DAYS_CHOICES[self.day][1]
 
+    def get_week_type(self):
+        return self.PERIODICITY_CHOICES[self.week][1]
+
     def get_readable_month_day(self, week=1):
         today = datetime.date.today()
         day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)

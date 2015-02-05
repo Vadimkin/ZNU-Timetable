@@ -24,7 +24,7 @@
                         <span class="calendar-icon"></span>
                         <div class="date">
                             <div class="date-weekday">{{ lesson.get_readable_week_day }}</div>
-                            <div class="date-day">{% readable_month_day lesson %}</div>
+                            <div class="date-day">{% readable_month_day lesson %}, {{ lesson.get_week_type|lower }}</div>
                         </div>
                     </div>
 
