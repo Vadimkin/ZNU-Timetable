@@ -233,6 +233,7 @@ class Timetable(models.Model):
     class Meta:
         verbose_name = "розклад"
         verbose_name_plural = "розклади"
+        ordering = ["day"]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
