@@ -31,7 +31,12 @@ class TimetableAdmin(admin.ModelAdmin):
         form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)
 
         previous_data = Timetable.objects.order_by('-pk')[0]
-        # form.base_fields['group'].initial = previous_data.group
+
+        groups_list = []
+        for one_group in previous_data.group.all():
+            groups_list.append(one_group.id)
+
+        form.base_fields['group'].initial = groups_list
         form.base_fields['day'].initial = previous_data.day
         form.base_fields['period'].initial = previous_data.period
 
