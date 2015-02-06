@@ -115,30 +115,41 @@ body {
 				color: #A3A3A3;
 			}
 
-	.timetable-time {
-		background: #F2F2F2;
-		/*height: 45px;*/
-		line-height: 45px;
-		text-align: center;
-		font-size: 15px;
-		color: #555555;
-		border-bottom: 1px solid #E3E3E3;
+
+	#timetable-col {
+	    overflow: hidden;
+	    border-bottom: 1px solid #E3E3E3;
 	}
 
-	.timetable-info {
-		background: #fff;
-		min-height: 45px;
-		line-height: 45px;
-		border-bottom: 1px solid #E3E3E3;
-	}
-
-	    .timetable-free_trajectory {
-	        font-style: italic;
+	    #timetable-col div {
+	        margin-bottom: -99999px;
+            padding-bottom: 99999px;
 	    }
 
-	    .timetable-subGroupInfo {
-	        font-style: italic;
-	    }
+        .timetable-time {
+            background: #F2F2F2;
+            /*height: 45px;*/
+            line-height: 45px;
+            text-align: center;
+            font-size: 15px;
+            color: #555555;
+        }
+
+        .timetable-info {
+            background: #fff;
+            line-height: 25px;
+            padding-top: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #E3E3E3;
+        }
+
+            .timetable-free_trajectory {
+                font-style: italic;
+            }
+
+            .timetable-subGroupInfo {
+                font-style: italic;
+            }
 
 .footer {
   position: absolute;
