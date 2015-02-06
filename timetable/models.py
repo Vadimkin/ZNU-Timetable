@@ -52,7 +52,7 @@ class Group(models.Model):
     def save(self, *args, **kwargs):
         self.last_update = time.time()
 
-        timetable = Timetable.objects.filter(group_id=self.id)
+        timetable = Timetable.objects.filter(group=self.id)
         for one_lesson in timetable:
             one_lesson.save()
 
@@ -233,7 +233,7 @@ class Timetable(models.Model):
     class Meta:
         verbose_name = "розклад"
         verbose_name_plural = "розклади"
-        ordering = ["day"]
+        # ordering = ["day"]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
