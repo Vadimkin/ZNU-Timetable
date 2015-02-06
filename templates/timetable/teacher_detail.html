@@ -34,7 +34,7 @@
             <div class="row">
                 <div id="timetable-col">
                     <div class="col-md-1 hidden-xs hidden-sm timetable-time">{{ lesson.period.get_time_without_seconds }}</div>
-                    <div class="col-md-11 timetable-info"><span class="visible-xs-inline visible-sm-inline" style="font-weight: bold;">{{ lesson.period.get_time_without_seconds }}:</span> {{ lesson.lesson.name }} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}). Груп{% if lesson.group.all.count == 1 %}а{% else %}и{% endif %} — {% for group in lesson.group.all %}{% if not forloop.first %}, {% endif %}<a href="{% url 'group_detail' group.id %}">{{ group.name }}</a>{% endfor %} </div>
+                    <div class="col-md-11 timetable-info"><span class="visible-xs-inline visible-sm-inline" style="font-weight: bold;">{{ lesson.period.get_time_without_seconds }}:</span> {{ lesson.lesson.name }} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}). Груп{% if lesson.group.all.count == 1 %}а{% else %}и{% endif %} — {% for group in lesson.group.all %}{% if not forloop.first %}, {% endif %}<a href="{% url 'group_detail' group.id %}">{{ group.name }}</a>{% endfor %} {% if lesson.subgroup != 0 %}({{ lesson.subgroup }} підгрупа){% endif %}</div>
                 </div>
             </div>
 
