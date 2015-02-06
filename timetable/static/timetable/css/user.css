@@ -143,6 +143,15 @@ body {
             border-bottom: 1px solid #E3E3E3;
         }
 
+            @media (max-width: 992px) {
+                #timetable-col {
+                    padding-bottom: 10px;
+                }
+                .timetable-info {
+                    line-height: 25px;
+                }
+            }
+
             .timetable-free_trajectory {
                 font-style: italic;
             }
