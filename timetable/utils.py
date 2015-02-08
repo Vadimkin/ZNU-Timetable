@@ -2,10 +2,7 @@ import datetime
 
 
 def get_current_week(numerator=None, auto_week_change=False):
-    if auto_week_change:
-        strftime_param = "%W"
-    else:
-        strftime_param = "%U"
+    strftime_param = "%U" if auto_week_change else "%W"
 
     current_week = ((int(datetime.datetime.today().strftime(strftime_param)) + 1) % 2) + 1 # If first week of year is numerator
 

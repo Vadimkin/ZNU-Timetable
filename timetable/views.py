@@ -65,8 +65,8 @@ class TeacherDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(TeacherDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = self.get_teacher_timetable(get_current_week(1))
-        timetable_second = self.get_teacher_timetable(get_current_week(2))
+        timetable_first = self.get_teacher_timetable(get_current_week(1, auto_week_change=True))
+        timetable_second = self.get_teacher_timetable(get_current_week(2, auto_week_change=True))
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context
@@ -105,8 +105,8 @@ class GroupDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(GroupDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = self.get_group_timetable(get_current_week(1))
-        timetable_second = self.get_group_timetable(get_current_week(2))
+        timetable_first = self.get_group_timetable(get_current_week(1, auto_week_change=True))
+        timetable_second = self.get_group_timetable(get_current_week(2, auto_week_change=True))
 
         context['timetable'] = list(chain(timetable_first, timetable_second))
         return context

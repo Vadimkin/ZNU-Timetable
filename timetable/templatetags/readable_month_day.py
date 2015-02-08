@@ -10,7 +10,7 @@ register = template.Library()
 @register.simple_tag
 def readable_month_day(lesson):
     """Modify week on sunday. At site if current day = sunday then showing timetable from new week """
-    week = lesson.week if lesson.week == get_current_week() and datetime.datetime.today().weekday() == 6 else lesson.week + 2
+    week = lesson.week + 2 if lesson.week == get_current_week() and datetime.datetime.today().weekday() == 6 else lesson.week
 
     today = datetime.date.today()
     day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=lesson.day + (week - 1) * 7)
