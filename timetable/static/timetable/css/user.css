@@ -121,10 +121,16 @@ body {
 	    border-bottom: 1px solid #E3E3E3;
 	}
 
-	    #timetable-col div {
+	@media (min-width: 993px) {
+        #timetable-col {
+            border-bottom: 1px solid #E3E3E3;
+        }
+
+        #timetable-col div {
 	        margin-bottom: -99999px;
             padding-bottom: 99999px;
 	    }
+    }
 
         .timetable-time {
             background: #F2F2F2;
@@ -146,8 +152,11 @@ body {
             @media (max-width: 992px) {
                 #timetable-col {
                     padding-bottom: 10px;
+                    background: #fff;
                 }
                 .timetable-info {
+                    margin-bottom: 0px;
+                    border-bottom: none;
                     line-height: 25px;
                 }
             }
