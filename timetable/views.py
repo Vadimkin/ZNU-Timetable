@@ -2,6 +2,7 @@
 from itertools import chain
 import json
 import urllib
+import datetime
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -85,11 +86,34 @@ class GroupDetailView(generic.DetailView):
         super(GroupDetailView, self).__init__(**kwargs)
         self.kwargs = None
 
-    def get_group_timetable(self, current_week):
+    def get_group_timetable(self, current_week, list_append=None):
+        current_week_day = 0
+        if current_week == get_current_week():
+            current_week_day = datetime.date.today().weekday()
+
         timetable = Timetable.objects.filter(group=self.kwargs['group_id'],
                                              periodicity__in=[0, current_week],
                                              date_start__lte=first_day_of_week,
-                                             date_end__gte=first_day_of_week).order_by('day', 'period', )
+                                             date_end__gte=first_day_of_week,
+                                             day__gte=current_week_day, ).order_by('day', 'period')
+
+        timetable_with_offset = Timetable.objects.filter(group=self.kwargs['group_id'],
+                                                         periodicity__in=[0, current_week],
+                                                         date_start__lte=first_day_of_week,
+                                                         date_end__gte=first_day_of_week,
+                                                         day__lt=current_week_day, ).order_by('day', 'period')
+
+        for one_lesson in timetable_with_offset:
+            one_lesson.week = current_week + 2
+
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher_id = 50
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience_id = 40
+
+            if list_append is not None:
+                list_append.append(one_lesson)
 
         for one_lesson in timetable:
             one_lesson.week = current_week
@@ -105,10 +129,12 @@ class GroupDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(GroupDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = self.get_group_timetable(get_current_week(1))
-        timetable_second = self.get_group_timetable(get_current_week(2))
+        timetable_last = []
 
-        context['timetable'] = list(chain(timetable_first, timetable_second))
+        timetable_first = self.get_group_timetable(get_current_week(1), list_append=timetable_last)
+        timetable_second = self.get_group_timetable(get_current_week(2), list_append=timetable_last)
+
+        context['timetable'] = list(chain(timetable_first, timetable_second, timetable_last))
         return context
 
 

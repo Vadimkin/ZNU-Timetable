@@ -29,7 +29,7 @@
                         </div> <!-- (-) timetable-lesson -->
                     {% endif %}
 
-                    <div class="row timetable-lesson"> <!-- (+) timetable-lesson -->
+                    <div class="row timetable-lesson {% if lesson.is_active_day %}timetable-lesson__active{% endif %}"> <!-- (+) timetable-lesson -->
                         <div class="col-md-3 day">
                             <span class="calendar-icon"></span>
                             <div class="date">
@@ -43,8 +43,9 @@
 
                 <div class="row js-lesson {% if lesson.subgroup != 0 %}subgroup subgroup__{{ lesson.subgroup }}" data-subgroup="{{ lesson.subgroup }}"{% else %}"{% endif %}>
                     <div id="timetable-col">
-                        <div class="col-md-1 hidden-xs hidden-sm timetable-time">{{ lesson.period.get_time_without_seconds }}</div>
-                        <div class="col-md-11 timetable-info"><span class="visible-xs-inline visible-sm-inline"><b>{{ lesson.period.get_time_without_seconds }}:</b></span>{% if lesson.free_trajectory %} <span class="timetable-free_trajectory">Вільна траекторія.</span> {% endif %}{% if lesson.subgroup != 0 %} <span class="timetable-subGroupInfo">Підгрупа {{ lesson.subgroup }} — </span>{% endif %} {{ lesson.lesson.name }}{% if lesson.audience.audience != "—" %} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}).{% endif %}{% if lesson.teacher.name != "—" %} Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a>{% endif %}</div>
+                        <div class="col-md-1 hidden-xs hidden-sm timetable-time" title="Час початку пари">{{ lesson.period.get_time_start_without_seconds }}</div>
+                        <div class="col-md-10 timetable-info"><span class="visible-xs-inline visible-sm-inline"><b>{{ lesson.period.get_time_start_without_seconds }}:</b></span>{% if lesson.free_trajectory %} <span class="timetable-free_trajectory">Вільна траекторія.</span> {% endif %}{% if lesson.subgroup != 0 %} <span class="timetable-subGroupInfo">Підгрупа {{ lesson.subgroup }} — </span>{% endif %} {{ lesson.lesson.name }}{% if lesson.audience.audience != "—" %} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}).{% endif %}{% if lesson.teacher.name != "—" %} Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a>{% endif %}</div>
+                        <div class="col-md-1 hidden-xs hidden-sm timetable-time" title="Час кінця пари">{{ lesson.period.get_time_end_without_seconds }}</div>
                     </div>
                 </div>
 

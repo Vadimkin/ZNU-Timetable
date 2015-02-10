@@ -11,6 +11,9 @@ register = template.Library()
 def readable_month_day(lesson):
     week = get_current_week(lesson.week)
 
+    if lesson.week >= 3:
+        week += 1
+
     today = datetime.date.today()
     day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=lesson.day + (week - 1) * 7)
     return dateformat.format(day, settings.DATE_FORMAT)

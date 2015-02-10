@@ -153,8 +153,11 @@ class Time(models.Model):
     def __unicode__(self):
         return u"{0} пара ({1}–{2})".format(self.num, self.time_start, self.time_end)
 
-    def get_time_without_seconds(self):
+    def get_time_start_without_seconds(self):
         return self.time_start.strftime('%H:%M')
+
+    def get_time_end_without_seconds(self):
+        return self.time_end.strftime('%H:%M')
 
     class Meta:
         verbose_name = "час"
@@ -243,9 +246,21 @@ class Timetable(models.Model):
         return self.DAYS_CHOICES[self.day][1]
 
     def get_week_type(self):
-        return self.PERIODICITY_CHOICES[self.week][1]
+        week = (self.week % 2)
+
+        if week == 0:
+            week = 2
+        else:
+            week = 1
+
+        return self.PERIODICITY_CHOICES[week][1]
 
     def get_readable_month_day(self, week=1):
         today = datetime.date.today()
         day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)
         return day.strftime('%d %B')
+
+    def is_active_day(self, week=1):
+        today = datetime.date.today()
+        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)
+        return today == day
