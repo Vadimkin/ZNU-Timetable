@@ -14,13 +14,16 @@ from timetable.utils import get_current_week
 
 class DepartmentResource(ModelResource):
     class Meta:
-        queryset = Department.objects.all()
+        queryset = Department.objects.filter(last_update__gt=0)
         include_resource_uri = False
         resource_name = 'department'
 
         filtering = {
             'id': ALL_WITH_RELATIONS
         }
+
+    def get_object_list(self, request):
+        return super(DepartmentResource, self).get_object_list(request)
 
 
 class GroupResource(ModelResource):
