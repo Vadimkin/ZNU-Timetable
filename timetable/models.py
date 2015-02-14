@@ -84,6 +84,8 @@ class Teacher(models.Model):
 class Campus(models.Model):
     name = models.TextField(blank=True, default='', verbose_name="Корпус")
     last_update = models.IntegerField(default=int(time.time()))
+    longitude = models.FloatField(blank=True, null=True, verbose_name="Longitude")
+    latitude = models.FloatField(blank=True, null=True, verbose_name="Latitude")
 
     def __unicode__(self):
         return u"{0}".format(self.name)
@@ -257,10 +259,10 @@ class Timetable(models.Model):
 
     def get_readable_month_day(self, week=1):
         today = datetime.date.today()
-        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)
+        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week - 1) * 7)
         return day.strftime('%d %B')
 
     def is_active_day(self, week=1):
         today = datetime.date.today()
-        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week-1)*7)
+        day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week - 1) * 7)
         return today == day
