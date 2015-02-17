@@ -72,6 +72,8 @@ ROOT_URLCONF = 'znu.urls'
 
 WSGI_APPLICATION = 'znu.wsgi.application'
 
+X_FRAME_OPTIONS = "ALLOW"
+
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
