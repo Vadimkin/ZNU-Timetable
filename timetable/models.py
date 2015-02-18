@@ -52,10 +52,6 @@ class Group(models.Model):
     def save(self, *args, **kwargs):
         self.last_update = time.time()
 
-        timetable = Timetable.objects.filter(group=self.id)
-        for one_lesson in timetable:
-            one_lesson.save()
-
         super(Group, self).save(*args, **kwargs)
 
 
@@ -242,6 +238,10 @@ class Timetable(models.Model):
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
+
+        for one_group in self.group.all():
+            one_group.save()
+
         super(Timetable, self).save(*args, **kwargs)
 
     def get_readable_week_day(self):
