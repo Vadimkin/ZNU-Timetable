@@ -17,21 +17,6 @@ from znu import settings_secret
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = settings_secret.SECRET_KEY
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = settings_secret.DEBUG
-
-TEMPLATE_DEBUG = settings_secret.TEMPLATE_DEBUG
-
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -74,12 +59,6 @@ WSGI_APPLICATION = 'znu.wsgi.application'
 
 X_FRAME_OPTIONS = "ALLOW"
 
-
-# Database
-# https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
-DATABASES = settings_secret.DATABASES
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -120,3 +99,8 @@ API_LIMIT_PER_PAGE = 0
 # Grappelli
 
 GRAPPELLI_ADMIN_TITLE = "Розклад ЗНУ"
+
+try:
+    from settings_secret import *
+except ImportError, _:
+    pass
