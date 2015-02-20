@@ -7,22 +7,30 @@ from timetable.models import Department, Group, Teacher, Campus, Audience, Lesso
 
 
 class CampusAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'get_last_update')
     exclude = ('last_update',)
+
+    def get_last_update(self, obj):
+        return datetime.fromtimestamp(
+            int(obj.last_update)
+        ).strftime('%Y-%m-%d %H:%M:%S')
+
+    get_last_update.admin_order_field = 'Останнє оновлення'
+    get_last_update.short_description = 'Останнє оновлення'
 
 
 class TimetableAdmin(admin.ModelAdmin):
     fields = (('group', 'subgroup', 'free_trajectory'), 'day', 'period', 'lesson', 'teacher', 'audience', 'periodicity',
               'lesson_type',
               ('date_start', 'date_end'))
-    list_display = ('id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity')
+    list_display = (
+        'id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity', 'get_last_update')
     list_filter = ('group', 'lesson', 'teacher', 'day')
-    exclude = ('last_update',)
-
 
     def get_colored_day(self, instance):
         colors = ("#673AB7", "#9C27B0", "#1976D2", "#0277BD", "#009688", "#795548", "#263238")
-        return "<span style='color: {0}; font-weight: bold;'>{1}</span>".format(colors[instance.day], instance.DAYS_CHOICES[instance.day][1])
+        return "<span style='color: {0}; font-weight: bold;'>{1}</span>".format(colors[instance.day],
+                                                                                instance.DAYS_CHOICES[instance.day][1])
 
     get_colored_day.allow_tags = True
     get_colored_day.short_description = 'День тижня'
@@ -51,13 +59,13 @@ class TimetableAdmin(admin.ModelAdmin):
     get_group.admin_order_field = 'Група'
     get_group.short_description = 'Група'
 
-    def last_update(self, obj):
-        return datetime.datetime.fromtimestamp(
+    def get_last_update(self, obj):
+        return datetime.fromtimestamp(
             int(obj.last_update)
         ).strftime('%Y-%m-%d %H:%M:%S')
 
-    last_update.admin_order_field = 'Останнє оновлення'
-    last_update.short_description = 'Останнє оновлення'
+    get_last_update.admin_order_field = 'Останнє оновлення'
+    get_last_update.short_description = 'Останнє оновлення'
 
 
 class LessonForm(forms.ModelForm):
