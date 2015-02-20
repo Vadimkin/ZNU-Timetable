@@ -72,7 +72,7 @@ class Teacher(models.Model):
 
         timetable = Timetable.objects.filter(teacher_id=self.id)
         for one_lesson in timetable:
-            one_lesson.save()
+            one_lesson.save(teacher_save=False)
 
         super(Teacher, self).save(*args, **kwargs)
 
@@ -236,11 +236,14 @@ class Timetable(models.Model):
         verbose_name_plural = "розклади"
         # ordering = ["day"]
 
-    def save(self, *args, **kwargs):
+    def save(self, teacher_save=True, *args, **kwargs):
         self.last_update = time.time()
 
         for one_group in self.group.all():
             one_group.save()
+
+        if teacher_save:
+            self.teacher.save()
 
         super(Timetable, self).save(*args, **kwargs)
 
