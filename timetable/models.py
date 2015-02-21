@@ -67,13 +67,14 @@ class Teacher(models.Model):
         verbose_name_plural = "викладачі"
         ordering = ["name"]
 
-    def save(self, *args, **kwargs):
+    def save(self, from_timetable=False, *args, **kwargs):
         self.last_update = time.time()
         super(Teacher, self).save(*args, **kwargs)
 
-        timetable = Timetable.objects.filter(teacher_id=self.id)
-        for one_lesson in timetable:
-            one_lesson.save(teacher_save=False)
+        if not from_timetable:
+            timetable = Timetable.objects.filter(teacher_id=self.id)
+            for one_lesson in timetable:
+                one_lesson.save(teacher_save=False)
 
 
 class Campus(models.Model):
@@ -243,9 +244,7 @@ class Timetable(models.Model):
             one_group.save()
 
         if teacher_save:
-            self.teacher.save()
-
-
+            self.teacher.save(from_timetable=True)
 
     def get_readable_week_day(self):
         return self.DAYS_CHOICES[self.day][1]
