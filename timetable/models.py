@@ -20,11 +20,11 @@ class Department(models.Model):
     def save(self, *args, **kwargs):
         self.last_update = time.time()
 
+        super(Department, self).save(*args, **kwargs)
+
         group = Group.objects.filter(departament_id=self.id)
         for one_group in group:
             one_group.save()
-
-        super(Department, self).save(*args, **kwargs)
 
 
 class Group(models.Model):
@@ -69,12 +69,11 @@ class Teacher(models.Model):
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
+        super(Teacher, self).save(*args, **kwargs)
 
         timetable = Timetable.objects.filter(teacher_id=self.id)
         for one_lesson in timetable:
             one_lesson.save(teacher_save=False)
-
-        super(Teacher, self).save(*args, **kwargs)
 
 
 class Campus(models.Model):
@@ -115,12 +114,11 @@ class Audience(models.Model):
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
+        super(Audience, self).save(*args, **kwargs)
 
         timetable = Timetable.objects.filter(audience_id=self.id)
         for one_lesson in timetable:
             one_lesson.save()
-
-        super(Audience, self).save(*args, **kwargs)
 
 
 class Lesson(models.Model):
@@ -136,11 +134,11 @@ class Lesson(models.Model):
         ordering = ["name"]
 
     def save(self, *args, **kwargs):
+        super(Lesson, self).save(*args, **kwargs)
+
         timetable = Timetable.objects.filter(lesson_id=self.id)
         for one_lesson in timetable:
             one_lesson.save()
-
-        super(Lesson, self).save(*args, **kwargs)
 
 
 class Time(models.Model):
@@ -239,13 +237,15 @@ class Timetable(models.Model):
     def save(self, teacher_save=True, *args, **kwargs):
         self.last_update = time.time()
 
+        super(Timetable, self).save(*args, **kwargs)
+
         for one_group in self.group.all():
             one_group.save()
 
         if teacher_save:
             self.teacher.save()
 
-        super(Timetable, self).save(*args, **kwargs)
+
 
     def get_readable_week_day(self):
         return self.DAYS_CHOICES[self.day][1]
