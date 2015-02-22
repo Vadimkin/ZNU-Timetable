@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 import datetime
+import time
 
 from django.db import models
-import time
-from timetable.utils import get_current_week
 
 
 class Department(models.Model):

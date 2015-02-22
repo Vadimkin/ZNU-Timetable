@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from django.conf.urls import url
-from django.core.paginator import InvalidPage
 from django.core.urlresolvers import reverse
 from django.db.models import Max
-from django.http import Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
