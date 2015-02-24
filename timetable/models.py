@@ -3,6 +3,8 @@ import datetime
 import time
 
 from django.db import models
+from django.db.models.signals import post_save, m2m_changed, pre_delete
+from django.dispatch import receiver
 
 
 class Department(models.Model):
