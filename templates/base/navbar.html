@@ -16,8 +16,8 @@
 				<li {% if active_page = 'map' %}class="active"{% endif %}><a href="{% url 'map' %}">Карта корпусів</a></li>
 			</ul>
             <ul class="nav navbar-nav navbar-right">
-                {% if active_page = 'api' %}<li><a href="https://github.com/Vadimkin/ZNU-Timetable">Github</a></li>{% endif %}
-				<li {% if active_page = 'api' %}class="active"{% endif %}><a href="{% url 'api' %}">API</a></li>
+                <li><a href="https://github.com/Vadimkin/ZNU-Timetable">Github</a></li>
+				<li><a href="/api/v1/doc/">API</a></li>
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>

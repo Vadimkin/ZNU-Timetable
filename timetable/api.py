@@ -5,7 +5,7 @@ from django.db.models import Max
 from django.http import HttpResponseRedirect
 
 from tastypie import fields
-from tastypie.resources import Resource, ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie.resources import Resource, ModelResource, ALL
 from tastypie.utils import trailing_slash
 from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
 from timetable.utils import get_current_week
@@ -16,10 +16,7 @@ class DepartmentResource(ModelResource):
         queryset = Department.objects.filter(last_update__gt=0)
         include_resource_uri = False
         resource_name = 'department'
-
-        filtering = {
-            'id': ALL_WITH_RELATIONS
-        }
+        allowed_methods = ['get',]
 
     def get_object_list(self, request):
         return super(DepartmentResource, self).get_object_list(request)
@@ -32,10 +29,11 @@ class GroupResource(ModelResource):
         queryset = Group.objects.all()
         include_resource_uri = False
         resource_name = 'group'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
-            'department': ALL_WITH_RELATIONS
+            'id': ALL,
+            'department': ALL
         }
 
     def prepend_urls(self):
@@ -80,9 +78,10 @@ class TeacherResource(ModelResource):
         queryset = Teacher.objects.all()
         include_resource_uri = False
         resource_name = 'teacher'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
+            'id': ALL,
         }
 
     def dehydrate(self, bundle):
@@ -96,9 +95,10 @@ class CampusResource(ModelResource):
     class Meta:
         queryset = Campus.objects.all()
         resource_name = 'campus'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
+            'id': ALL,
         }
 
     def dehydrate(self, bundle):
@@ -115,9 +115,10 @@ class AudienceResource(ModelResource):
         queryset = Audience.objects.all()
         include_resource_uri = False
         resource_name = 'audience'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
+            'id': ALL,
             'campus': ALL,
         }
 
@@ -136,9 +137,10 @@ class LessonResource(ModelResource):
         queryset = Lesson.objects.all()
         include_resource_uri = False
         resource_name = 'lesson'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
+            'id': ALL,
         }
 
 
@@ -147,9 +149,10 @@ class TimeResource(ModelResource):
         queryset = Time.objects.all()
         include_resource_uri = False
         resource_name = 'time'
+        allowed_methods = ['get',]
 
         filtering = {
-            'id': ALL_WITH_RELATIONS,
+            'id': ALL,
         }
 
 
@@ -162,11 +165,12 @@ class TimetableResource(ModelResource):
         queryset = Timetable.objects.all()
         include_resource_uri = False
         resource_name = 'timetable'
+        allowed_methods = ['get',]
 
         filtering = {
-            'periodicity': ALL_WITH_RELATIONS,
+            'periodicity': ALL,
             'group': ALL,
-            'teacher': ALL_WITH_RELATIONS,
+            'teacher': ALL,
         }
 
     def prepend_urls(self):
@@ -236,6 +240,7 @@ class CurrentWeekResource(Resource):
     class Meta:
         resource_name = 'current_week'
         include_resource_uri = False
+        allowed_methods = ['get',]
 
     class DictToObj(object):
         """
