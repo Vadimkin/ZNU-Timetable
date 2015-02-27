@@ -47,11 +47,23 @@ class TeacherDetailView(generic.DetailView):
         super(TeacherDetailView, self).__init__(**kwargs)
         self.kwargs = None
 
-    def get_teacher_timetable(self, current_week):
+    def get_teacher_timetable(self, current_week, list_append=None):
+        current_week_day = 0
+        if current_week == get_current_week():
+            current_week_day = datetime.date.today().weekday()
+
         timetable = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                              periodicity__in=[0, current_week],
                                              date_start__lte=first_day_of_week,
-                                             date_end__gte=first_day_of_week).order_by('day', 'period', 'subgroup')
+                                             date_end__gte=first_day_of_week,
+                                             day__gte=current_week_day, ).order_by('day', 'period', 'subgroup')
+
+        timetable_with_offset = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
+                                             periodicity__in=[0, current_week],
+                                             date_start__lte=first_day_of_week,
+                                             date_end__gte=first_day_of_week,
+                                             day__lt=current_week_day, ).order_by('day', 'period', 'subgroup')
+
         for one_lesson in timetable:
             one_lesson.week = current_week
 
@@ -61,15 +73,29 @@ class TeacherDetailView(generic.DetailView):
             if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
                 one_lesson.audience_id = 40
 
+        for one_lesson in timetable_with_offset:
+            one_lesson.week = current_week + 2
+
+            if one_lesson.teacher and one_lesson.teacher.name == u"—":
+                one_lesson.teacher_id = 50
+
+            if one_lesson.audience is not None and one_lesson.audience.audience == u"—":
+                one_lesson.audience_id = 40
+
+            if list_append is not None:
+                list_append.append(one_lesson)
+
         return timetable
 
     def get_context_data(self, **kwargs):
         context = super(TeacherDetailView, self).get_context_data(**kwargs)
 
-        timetable_first = self.get_teacher_timetable(get_current_week(1))
-        timetable_second = self.get_teacher_timetable(get_current_week(2))
+        timetable_last = []
 
-        context['timetable'] = list(chain(timetable_first, timetable_second))
+        timetable_first = self.get_teacher_timetable(get_current_week(1), list_append=timetable_last)
+        timetable_second = self.get_teacher_timetable(get_current_week(2), list_append=timetable_last)
+
+        context['timetable'] = list(chain(timetable_first, timetable_second, timetable_last))
         return context
 
 
