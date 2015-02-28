@@ -182,3 +182,44 @@ body {
 		padding: 0;
 		margin: 0;
 	}
+
+	.footer-github {
+	    display: block;
+	    width: 40px;
+	    height: 33px;
+	    background: url('../img/octocat.png');
+	    margin-top: 13.5px;
+	}
+
+        @-webkit-keyframes rotating {
+            from{
+                -webkit-transform: rotate(0deg);
+            }
+            to{
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotating {
+            from{
+                -webkit-transform: rotate(0deg);
+            }
+            to{
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+	    .footer-github {
+            display: block;
+            width: 40px;
+            height: 33px;
+            background: url('../img/octocat.png');
+            margin-top: 13.5px;
+        }
+
+            .footer-github:hover {
+                -webkit-animation: rotating 1.5s infinite linear;
+                -moz-animation:    rotating 1.5s infinite linear;
+                -o-animation:      rotating 1.5s infinite linear;
+                animation:         rotating 1.5s infinite linear;
+            }
