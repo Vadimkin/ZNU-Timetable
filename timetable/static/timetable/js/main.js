@@ -21,11 +21,17 @@ $(document).ready(function() {
     };
 
     $('.js-subgroup').on('change', function() {
-        currentSubgroup = $(this).val();
-        $('.subgroup').not('.subgroup__' + currentSubgroup).slideUp();
-        $('.subgroup__' + currentSubgroup).slideDown();
+        currentSubgroup = parseInt($(this).val());
+        if(currentSubgroup > 0) {
+            $('.subgroup').not('.subgroup__' + currentSubgroup).slideUp();
+            $('.subgroup__' + currentSubgroup).slideDown();
 
-        $('.timetable-subGroupInfo').hide();
+            $('.timetable-subGroupInfo').hide();
+        } else {
+            $('.subgroup').slideDown();
+            $('.timetable-subGroupInfo').show();
+        }
+
 
         cookieData = getCookie('groupInfo')
         if(cookieData) {
@@ -47,7 +53,7 @@ $(document).ready(function() {
             if(data['group_id'] != groupID) {
                 $('.js-myGroup').show();
             }
-            if(subGroupIP != null && data['group_id'] == groupID) {
+            if(subGroupIP != null && subGroupIP != 0 && data['group_id'] == groupID) {
                 $(".js-subgroup").val(subGroupIP);
                 $('.timetable-subGroupInfo').hide();
                 $('.subgroup').not('.subgroup__' + subGroupIP).hide();
