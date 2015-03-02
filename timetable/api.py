@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from datetime import datetime
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db.models import Max
@@ -16,7 +17,7 @@ class DepartmentResource(ModelResource):
         queryset = Department.objects.filter(last_update__gt=0)
         include_resource_uri = False
         resource_name = 'department'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
     def get_object_list(self, request):
         return super(DepartmentResource, self).get_object_list(request)
@@ -29,7 +30,7 @@ class GroupResource(ModelResource):
         queryset = Group.objects.all()
         include_resource_uri = False
         resource_name = 'group'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -78,7 +79,7 @@ class TeacherResource(ModelResource):
         queryset = Teacher.objects.all()
         include_resource_uri = False
         resource_name = 'teacher'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -95,7 +96,7 @@ class CampusResource(ModelResource):
     class Meta:
         queryset = Campus.objects.all()
         resource_name = 'campus'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -115,7 +116,7 @@ class AudienceResource(ModelResource):
         queryset = Audience.objects.all()
         include_resource_uri = False
         resource_name = 'audience'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -137,7 +138,7 @@ class LessonResource(ModelResource):
         queryset = Lesson.objects.all()
         include_resource_uri = False
         resource_name = 'lesson'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -149,7 +150,7 @@ class TimeResource(ModelResource):
         queryset = Time.objects.all()
         include_resource_uri = False
         resource_name = 'time'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'id': ALL,
@@ -165,7 +166,7 @@ class TimetableResource(ModelResource):
         queryset = Timetable.objects.all()
         include_resource_uri = False
         resource_name = 'timetable'
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
         filtering = {
             'periodicity': ALL,
@@ -235,12 +236,13 @@ class TimetableResource(ModelResource):
 
 
 class CurrentWeekResource(Resource):
-    week = fields.CharField(attribute='week')
+    timetable_week = fields.IntegerField(attribute='timetable_week')
+    year_week = fields.IntegerField(attribute='year_week')
 
     class Meta:
         resource_name = 'current_week'
         include_resource_uri = False
-        allowed_methods = ['get',]
+        allowed_methods = ['get', ]
 
     class DictToObj(object):
         """
@@ -253,7 +255,7 @@ class CurrentWeekResource(Resource):
 
         def __getattr__(self, key):
             value = self.__dict__['d'][key]
-            if type({}) == type(value):
+            if type(value) == type({}):
                 return self.DictToObj(value)
 
             return value
@@ -261,13 +263,14 @@ class CurrentWeekResource(Resource):
     def obj_get_list(self, request=None, **kwargs):
         bundle = []
         current_week = get_current_week()
-        bundle.append(self.DictToObj({'week': current_week}))
+        week_of_year = datetime.today().isocalendar()[1]
+        bundle.append(self.DictToObj({'timetable_week': current_week, 'year_week': week_of_year}))
         return bundle
 
     def alter_list_data_to_serialize(self, request, data_dict):
         if isinstance(data_dict, dict):
-            if 'meta' in data_dict:
-                del (data_dict['meta'])
-            if 'objects' in data_dict:
-                data_dict = data_dict['objects'][0]
-            return data_dict
+                if 'meta' in data_dict:
+                    del (data_dict['meta'])
+                if 'objects' in data_dict:
+                    data_dict = data_dict['objects'][0]
+                return data_dict

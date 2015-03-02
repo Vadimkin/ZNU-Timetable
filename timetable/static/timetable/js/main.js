@@ -59,6 +59,7 @@ $(document).ready(function() {
                 $('.subgroup').not('.subgroup__' + subGroupIP).hide();
                 $('.subgroup__' + subGroupIP).show();
             }
+
         } else {
             $('.js-myGroup').show();
         }
