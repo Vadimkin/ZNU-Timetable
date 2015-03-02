@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
+import json
+import django
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db.models import Max
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL
@@ -187,6 +189,9 @@ class TimetableResource(ModelResource):
         # TODO Validate ID
         sqs = Timetable.objects.filter(group=request.GET.get('group'))
 
+        if sqs.count() == 0:
+            return HttpResponseNotFound(json.dumps({'error': '1', 'status': 'Not found'}))
+
         objects = []
 
         for result in sqs:
@@ -269,8 +274,8 @@ class CurrentWeekResource(Resource):
 
     def alter_list_data_to_serialize(self, request, data_dict):
         if isinstance(data_dict, dict):
-                if 'meta' in data_dict:
-                    del (data_dict['meta'])
-                if 'objects' in data_dict:
-                    data_dict = data_dict['objects'][0]
-                return data_dict
+            if 'meta' in data_dict:
+                del (data_dict['meta'])
+            if 'objects' in data_dict:
+                data_dict = data_dict['objects'][0]
+            return data_dict
