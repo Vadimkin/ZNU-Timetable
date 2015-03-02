@@ -24,8 +24,10 @@ class TimetableAdmin(admin.ModelAdmin):
               'lesson_type',
               ('date_start', 'date_end'))
     list_display = (
-        'id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity', 'get_last_update')
+        'id', 'get_group', 'get_colored_day', 'lesson', 'teacher', 'subgroup', 'period', 'periodicity',
+        'get_last_update')
     list_filter = ('group', 'lesson', 'teacher', 'day')
+    exclude = ('last_update',)
 
     def get_colored_day(self, instance):
         colors = ("#673AB7", "#9C27B0", "#1976D2", "#0277BD", "#009688", "#795548", "#263238")
@@ -69,26 +71,56 @@ class TimetableAdmin(admin.ModelAdmin):
 
 
 class LessonForm(forms.ModelForm):
-    name = forms.CharField(required=False)
+    name = forms.CharField(required=True)
 
     class Meta:
         model = Lesson
         fields = "__all__"
 
     def clean_name(self):
-        name = self.cleaned_data['name']
+        name = self.cleaned_data['name'].strip()
         if Lesson.objects.filter(name=name).exists():
-            raise forms.ValidationError("This email already used")
+            raise forms.ValidationError("Цей предмет вже додано")
         return name
 
 
 class LessonAdmin(admin.ModelAdmin):
     form = LessonForm
+    exclude = ('last_update',)
+
+
+class TeacherForm(forms.ModelForm):
+    name = forms.CharField(required=True)
+
+    class Meta:
+        model = Teacher
+        fields = "__all__"
+
+    def clean_name(self):
+        name = self.cleaned_data['name'].strip()
+        if self.instance:
+            if Teacher.objects.filter(name=name).exists():
+                raise forms.ValidationError("Цей викладач вже є")
+        return name
+
+
+class TeacherAdmin(admin.ModelAdmin):
+    form = TeacherForm
+    list_display = ('id', 'name', 'get_last_update')
+    exclude = ('last_update',)
+
+    def get_last_update(self, obj):
+        return datetime.fromtimestamp(
+            int(obj.last_update)
+        ).strftime('%Y-%m-%d %H:%M:%S')
+
+    get_last_update.admin_order_field = 'Останнє оновлення'
+    get_last_update.short_description = 'Останнє оновлення'
 
 
 admin.site.register(Department)
 admin.site.register(Group)
-admin.site.register(Teacher)
+admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Time)
 admin.site.register(Campus, CampusAdmin)
 admin.site.register(Audience)
