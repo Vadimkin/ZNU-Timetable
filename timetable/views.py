@@ -59,10 +59,11 @@ class TeacherDetailView(generic.DetailView):
                                              day__gte=current_week_day, ).order_by('day', 'period', 'subgroup')
 
         timetable_with_offset = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
-                                             periodicity__in=[0, current_week],
-                                             date_start__lte=first_day_of_week,
-                                             date_end__gte=first_day_of_week,
-                                             day__lt=current_week_day, ).order_by('day', 'period', 'subgroup')
+                                                         periodicity__in=[0, current_week],
+                                                         date_start__lte=first_day_of_week,
+                                                         date_end__gte=first_day_of_week,
+                                                         day__lt=current_week_day, ).order_by('day', 'period',
+                                                                                              'subgroup')
 
         for one_lesson in timetable:
             one_lesson.week = current_week

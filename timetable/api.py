@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
 import json
-import django
+
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 from django.http import HttpResponseRedirect, HttpResponseNotFound
-
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL
 from tastypie.utils import trailing_slash

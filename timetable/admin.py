@@ -86,7 +86,16 @@ class LessonForm(forms.ModelForm):
 
 class LessonAdmin(admin.ModelAdmin):
     form = LessonForm
+    list_display = ('id', 'name', 'get_last_update')
     exclude = ('last_update',)
+
+    def get_last_update(self, obj):
+        return datetime.fromtimestamp(
+            int(obj.last_update)
+        ).strftime('%Y-%m-%d %H:%M:%S')
+
+    get_last_update.admin_order_field = 'Останнє оновлення'
+    get_last_update.short_description = 'Останнє оновлення'
 
 
 class TeacherForm(forms.ModelForm):
@@ -118,8 +127,21 @@ class TeacherAdmin(admin.ModelAdmin):
     get_last_update.short_description = 'Останнє оновлення'
 
 
+class GroupAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'get_last_update')
+    exclude = ('last_update',)
+
+    def get_last_update(self, obj):
+        return datetime.fromtimestamp(
+            int(obj.last_update)
+        ).strftime('%Y-%m-%d %H:%M:%S')
+
+    get_last_update.admin_order_field = 'Останнє оновлення'
+    get_last_update.short_description = 'Останнє оновлення'
+
+
 admin.site.register(Department)
-admin.site.register(Group)
+admin.site.register(Group, GroupAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Time)
 admin.site.register(Campus, CampusAdmin)
