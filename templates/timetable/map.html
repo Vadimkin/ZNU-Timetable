@@ -28,21 +28,18 @@ window.onload = function() {
 						campusNum = geoObject.properties.get('metaDataProperty.AnyMetaData.number');
 
 						if(allCampus[activeCampus] == 0) {
-						    geoObject.properties.set('hintContent', campusName);
                             geoObject.options.set({
                                 preset: 'twirl#blueStretchyIcon'
                             });
                             geoObject.properties.set('iconContent', campusName);
 						} else {
 						    if(allCampus[activeCampus] == campusNum) {
-						        geoObject.properties.set('hintContent', campusName);
                                 geoObject.options.set({
                                     preset: 'twirl#redStretchyIcon'
                                 });
                                 geoObject.properties.set('iconContent', campusName + " корпус");
                                 myMap.setCenter(geoObject.geometry.getCoordinates());
 						    } else {
-						        geoObject.properties.set('hintContent', campusName);
                                 geoObject.options.set({
                                     preset: 'twirl#blueStretchyIcon'
                                 });
