@@ -8,7 +8,4 @@ media/
 images/
 files/
 .idea/
-*/migrations/*
-*/migrations/
-timetable/migrations
 znu/static/*
