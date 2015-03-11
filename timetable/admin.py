@@ -129,8 +129,9 @@ class TeacherAdmin(admin.ModelAdmin):
 
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'get_last_update')
+    list_display = ('id', 'name', 'course', 'department', 'get_last_update')
     exclude = ('last_update',)
+    ordering = ('course', )
 
     def get_last_update(self, obj):
         return datetime.fromtimestamp(
