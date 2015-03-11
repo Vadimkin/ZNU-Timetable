@@ -77,6 +77,10 @@ $(document).ready(function() {
         setCookie('groupInfo', JSON.stringify(data), {'path': '/', 'expires': 60*60*24*365});
         showModal('Збережено', 'Тепер при вході на головну сторінку сайту буде відображатись Ваш розклад.');
     });
+
+    $('.mobileApps-one__ios').on('click', function() {
+        $('.selectDevice, .mobileIOS').slideToggle();
+    });
 });
 
 function getQueryVariable(variable) {

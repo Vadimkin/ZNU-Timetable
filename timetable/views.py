@@ -168,3 +168,7 @@ class GroupDetailView(generic.DetailView):
 
 class APIView(generic.TemplateView):
     template_name = 'timetable/api.html'
+
+
+class MobileApplicationView(generic.TemplateView):
+    template_name = 'timetable/mobile_applications.html'

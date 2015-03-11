@@ -169,6 +169,27 @@ body {
                 font-style: italic;
             }
 
+.mobileApps {
+	margin: 40px 0;
+	text-align: center;
+}
+
+
+	.mobileApps-one {
+		cursor: pointer;
+		color: #0060c7;
+	}
+
+		.mobileApps-model {
+			display: inline-block;
+			margin-top: 20px;
+			font-size: 120%;
+		}
+
+.mobileIOS {
+	display: none;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

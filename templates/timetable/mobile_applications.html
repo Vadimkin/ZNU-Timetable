@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block head %}{% include "base/head.html" with title="Мобільний додаток" %}{% endblock %}
+{% block navbar %}{% include "base/navbar.html" with active_page="mobile" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+	<h1>Додатки для мобільних девайсів</h1>
+
+    <div class="selectDevice">
+
+        <p>Оберіть модель Вашого мобільного телефону:</p>
+
+        <div class="row mobileApps">
+            <div class="col-md-3 col-md-offset-2">
+                <div class="mobileApps-one mobileApps-one__ios">
+                    <img class="mobileApps-img" src="{% static "timetable/img/iphone-app.png" %}" alt=""/>
+                    <span class="mobileApps-model">iPhone та iPad</span>
+                </div>
+            </div>
+            <a href="" class="col-md-3 col-md-offset-2">
+                <div class="mobileApps-one">
+                    <img class="mobileApps-img" src="{% static "timetable/img/android-app.png" %}" alt=""/>
+                    <span class="mobileApps-model">Android</span>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="mobileIOS">
+        <h2>iOS</h2>
+        <p>На жаль, повноцінного додатку для iOS зараз не існує, але можна зберегти сторінку з розкладом — відкрийте сторінку з розкладом на айфоні, натисніть знизу на <img src="{% static "timetable/img/ios/share@2x.png" %}" valign="baseline" width="11" height="15" style="margin: -5px .17em 0" alt=""/> і виберіть збереження на домашній екран <img src="{% static "timetable/img/ios/home@2x.png" %}" valign="baseline" width="15" style="margin: -2px .17em 0" alt=""/>.</p>
+    </div>
+
+
+
+</div>
+{% endblock %}
