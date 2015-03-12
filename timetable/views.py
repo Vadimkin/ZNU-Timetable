@@ -3,11 +3,15 @@ from itertools import chain
 import json
 import urllib
 import datetime
+import time
+from django import http
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
+from django.utils.datastructures import MultiValueDictKeyError
+from django.core.exceptions import ObjectDoesNotExist
 from django.views import generic
-from timetable.models import Teacher, Timetable, Group
+from timetable.models import Teacher, Timetable, Group, Lesson, Report
 from timetable.utils import get_current_week, first_day_of_week
 
 
@@ -172,3 +176,58 @@ class APIView(generic.TemplateView):
 
 class MobileApplicationView(generic.TemplateView):
     template_name = 'timetable/mobile_applications.html'
+
+
+class ReportView(generic.View):
+    def post(self, request):
+        result = {}
+
+        try:
+            group = request.POST['group_id']
+        except MultiValueDictKeyError:
+            result['status'] = 0
+            result['text'] = 'Не змінюйте параметри :-)'
+
+            return http.HttpResponse(json.dumps(result),
+                                     content_type='application/json')
+
+        try:
+            timetable = int(request.POST['timetable_id'])
+        except (MultiValueDictKeyError, ValueError):
+            timetable = None
+
+        try:
+            message = request.POST['message']
+        except MultiValueDictKeyError:
+            message = ""
+
+        try:
+            contact = request.POST['contact']
+        except MultiValueDictKeyError:
+            contact = ""
+
+        try:
+            report_group = Group.objects.filter(id=group).get()
+            if timetable is not None:
+                report_timetable = Timetable.objects.filter(id=timetable).get()
+            else:
+                report_timetable = None
+        except ObjectDoesNotExist:
+            result['status'] = 0
+            result['text'] = 'Не змінюйте параметри :-)'
+
+            return http.HttpResponse(json.dumps(result),
+                                     content_type='application/json')
+
+        user_ip = request.META.get('HTTP_X_REAL_IP')
+        if user_ip is None:
+            user_ip = '127.0.0.1'
+
+        report = Report(group=report_group, timetable=report_timetable, message=message, contacts=contact, ip=user_ip,
+                        last_update=int(time.time()))
+        report.save()
+
+        result['status'] = 1
+
+        return http.HttpResponse(json.dumps(result),
+                                 content_type='application/json')

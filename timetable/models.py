@@ -268,3 +268,20 @@ class Timetable(models.Model):
         today = datetime.date.today()
         day = today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=self.day + (week - 1) * 7)
         return today == day
+
+
+class Report(models.Model):
+    group = models.ForeignKey(Group, verbose_name="Група")
+    timetable = models.ForeignKey(Timetable, verbose_name="Розклад", null=True, blank=True)
+    message = models.TextField(verbose_name="Текст помилки", blank=True, null=True)
+    contacts = models.TextField(verbose_name="Контакти", blank=True, null=True)
+    ip = models.IPAddressField(verbose_name="IP")
+    fixed = models.BooleanField(verbose_name="Вирішено", default=False)
+    last_update = models.IntegerField(verbose_name="Час останнього додавання", default=int(time.time()))
+
+    def __unicode__(self):
+        return u"{0}".format(self.message)
+
+    class Meta:
+        verbose_name = "баг-репорт"
+        verbose_name_plural = "баг-репорти"

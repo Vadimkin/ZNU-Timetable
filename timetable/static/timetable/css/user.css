@@ -121,6 +121,10 @@ body {
 	    border-bottom: 1px solid #E3E3E3;
 	}
 
+	    .timetable-lesson__reportMode #timetable-col {
+	        cursor: pointer;
+	    }
+
 	@media (min-width: 993px) {
         #timetable-col {
             border-bottom: 1px solid #E3E3E3;
@@ -148,6 +152,15 @@ body {
             margin-bottom: 10px;
             border-bottom: 1px solid #E3E3E3;
         }
+
+            .timetable-lesson__reportMode .timetable-info {
+                cursor: pointer;
+	            background: #fffdc1;
+	        }
+
+	            .timetable-lesson__reportMode .row:hover .timetable-info {
+                    background: #ffc5c5;
+                }
 
             @media (max-width: 992px) {
                 #timetable-col {

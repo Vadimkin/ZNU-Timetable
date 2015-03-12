@@ -3,7 +3,7 @@ from datetime import datetime
 from django import forms
 
 from django.contrib import admin
-from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
+from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time, Report
 
 
 class CampusAdmin(admin.ModelAdmin):
@@ -158,5 +158,6 @@ admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Time)
 admin.site.register(Campus, CampusAdmin)
 admin.site.register(Audience)
+admin.site.register(Report)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Timetable, TimetableAdmin)

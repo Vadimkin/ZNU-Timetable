@@ -16,15 +16,23 @@
           <option selected="selected" value="0">Всі підгрупи</option>
         </select>
         <button class="btn btn-default btn-inline btn-myGroup js-myGroup" data-group="{{ object.id }}">Це моя група</button>
+        <button class="btn btn-default btn-inline js-sendReport" data-group="{{ object.id }}" data-readablegroup="{{ object.name }}">Помилка в розкладі</button>
     </div>
 </div><!-- /.container -->
 
 <div class="timetable">
     <div class="container">
+        <div class="alert alert-info alert-report" style="display:none;">
+            <button type="button" class="close js-sendReportClose"><span aria-hidden="true">&times;</span></button>
+            Оберіть та натисніть, будь ласка, на предмет з помилкою або <a href="" class="js-sendReportMessage alert-link">вкажіть у повідомленні помилки</a>.
+        </div>
+
         {% for lesson in timetable %}
             {% if lesson|is_not_past_due  %}
                 {% ifchanged lesson.day or ifchanged lesson.week %}
                     {% if forloop.counter != 1 %}
+                        </div> <!-- (-) container-fluid -->
+
                         </div> <!-- (-) col-md-9 -->
                         </div> <!-- (-) timetable-lesson -->
                     {% endif %}
@@ -39,9 +47,11 @@
                         </div>
 
                         <div class="col-md-9">
+
+                        <div class="container-fluid">
                 {% endifchanged %}
 
-                <div class="row js-lesson {% if lesson.subgroup != 0 %}subgroup subgroup__{{ lesson.subgroup }}" data-subgroup="{{ lesson.subgroup }}"{% else %}"{% endif %}>
+                <div class="row js-lesson {% if lesson.subgroup != 0 %}subgroup subgroup__{{ lesson.subgroup }}" data-timetableID="{{ lesson.id }}" data-subgroup="{{ lesson.subgroup }}"{% else %}"{% endif %}>
                     <div id="timetable-col">
                         <div class="col-md-1 hidden-xs hidden-sm timetable-time" title="Час початку пари">{{ lesson.period.get_time_start_without_seconds }}</div>
                         <div class="col-md-10 timetable-info"><span class="visible-xs-inline visible-sm-inline"><b>{{ lesson.period.get_time_start_without_seconds }}:</b></span>{% if lesson.subgroup != 0 %} <span class="timetable-subGroupInfo">Підгрупа {{ lesson.subgroup }} — </span>{% endif %} {% if lesson.free_trajectory %}<i title="Вільна траекторія">{% endif %}{{ lesson.lesson.name }}{% if lesson.free_trajectory %}</i>{% endif %}{% if lesson.audience.audience != "—" %} (<a href="{% url 'map' %}?campus={{ lesson.audience.campus.id }}">{{ lesson.audience.campus.name }}</a>, аудиторія {{ lesson.audience.audience }}).{% endif %}{% if lesson.teacher.name != "—" %} Викладач — <a href="{% url 'teacher_detail' lesson.teacher.id %}">{{ lesson.teacher.name }}</a>{% endif %}</div>
@@ -50,6 +60,8 @@
                 </div>
 
                 {% if forloop.last %}
+                    </div> <!-- (-) container-fluid -->
+
                     </div> <!-- (-) col-md-9 -->
                     </div> <!-- (-) timetable-lesson -->
                 {% endif %}

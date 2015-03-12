@@ -81,6 +81,67 @@ $(document).ready(function() {
     $('.mobileApps-one__ios').on('click', function() {
         $('.selectDevice, .mobileIOS').slideToggle();
     });
+
+    $('.js-sendReport').on('click', function() {
+        $('.timetable-lesson').addClass('timetable-lesson__reportMode');
+        groupID = $(this).data('group');
+        groupName = $(this).data('readablegroup');
+
+        $modalWindow = $('#modalReport');
+        $modalWindow.find('#group_id').val(groupID);
+        $modalWindow.find('#group').val(groupName);
+
+        $('.alert-report').show();
+
+        $('#modalReport #message-text').on('keyup keydown', function() {
+            if($(this).val() == "") {
+                $(this).parent().addClass('has-error');
+            } else {
+                $(this).parent().removeClass('has-error');
+            }
+        })
+    });
+
+    $('.js-sendReportClose').on('click', function(e) {
+        $('.alert-report').slideUp();
+        $('.timetable-lesson').removeClass('timetable-lesson__reportMode');
+        e.preventDefault();
+    });
+
+    $('.js-sendReportMessage').on('click', function(e) {
+        showModalReport();
+        e.preventDefault();
+    });
+
+    $('.js-formReportSend').on('click', function() {
+        data = $('#formReport').serialize();
+        if($('#modalReport #message-text').val() == "") {
+            $('#modalReport #message-text').focus().parent().addClass('has-error');
+            return false;
+        }
+        $.ajax({
+            method: "POST",
+            url: "/report/",
+            data: data
+        })
+          .done(function( msg ) {
+            if(msg.status == 1) {
+                $('#modalReport').modal('hide');
+                showModal("Результат", "Дякуємо! Ваше повідомлення успішно відправлено");
+                $('.js-sendReportClose').click();
+            } else {
+                alert("Виникла помилка — " + msg.text);
+            }
+          });
+    });
+
+    $('body').on('click', '.timetable-lesson__reportMode .js-lesson', function() {
+        timetableID = $(this).data('timetableid');
+        lesson = $(this).find(".timetable-info").text();
+        $('#modalReport #timetable_id').val(timetableID);
+        $('#modalReport #lesson').val(lesson);
+        showModalReport();
+    });
 });
 
 function getQueryVariable(variable) {
@@ -131,8 +192,15 @@ function setCookie(name, value, options) {
 }
 
 function showModal(title, text) {
-    $modalWindow = $('.modal')
+    $modalWindow = $('#modal');
     $modalWindow.find('.modal-title').html(title);
     $modalWindow.find('.modal-body p').html(text);
-    $modalWindow.modal('show')
+    $modalWindow.modal('show');
+}
+
+function showModalReport() {
+    $modalWindow = $('#modalReport');
+    $modalWindow.find('#group_id').val();
+    $modalWindow.find('#group').val();
+    $modalWindow.modal('show');
 }

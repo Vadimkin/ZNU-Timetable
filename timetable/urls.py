@@ -25,5 +25,7 @@ urlpatterns = patterns('',
                        url(r'api/v1/doc/', include('tastypie_swagger.urls', namespace='tastypie_swagger'), name='api',
                            kwargs={'tastypie_api_module': 'timetable.urls.v1_api', 'namespace': 'tastypie_swagger'},
                            ),
-                       url(r'^mobile/$', views.MobileApplicationView.as_view(), name='mobile_application')
+                       url(r'^mobile/$', views.MobileApplicationView.as_view(), name='mobile_application'),
+                       url(r'^report/$', views.ReportView.as_view(), name='report_send')
+
 )
