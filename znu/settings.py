@@ -27,7 +27,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tastypie',
-    'tastypie_swagger',
     'timetable'
 )
 
@@ -99,8 +98,6 @@ API_LIMIT_PER_PAGE = 0
 # Grappelli
 
 GRAPPELLI_ADMIN_TITLE = "Розклад ЗНУ"
-
-TASTYPIE_SWAGGER_API_MODULE = 'timetable.urls.v1_api'
 
 try:
     from settings_secret import *

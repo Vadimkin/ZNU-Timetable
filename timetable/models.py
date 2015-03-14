@@ -200,7 +200,7 @@ class Timetable(models.Model):
         (NONE_TYPE, 'Не задано'),
         (LECTURE_TYPE, 'Лекція'),
         (PRACTICE_TYPE, 'Семінар'),
-        (LABORATORY_TYPE, 'Лабораторна'),
+        (LABORATORY_TYPE, 'Практика'),
         (CONSULTATION_TYPE, 'Консультація'),
         (EXAM_TYPE, 'Екзамен'),
     )

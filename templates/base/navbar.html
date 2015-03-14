@@ -18,7 +18,7 @@
 			</ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
                 <li><a href="https://github.com/Vadimkin/ZNU-Timetable">Github</a></li>
-				<li><a href="/api/v1/doc/">API</a></li>
+				<li {% if active_page = 'api_docs' %}class="active"{% endif %}><a href="{% url 'api_docs' %}">API</a></li>
 			</ul>
 		</div><!--/.nav-collapse -->
 	</div>

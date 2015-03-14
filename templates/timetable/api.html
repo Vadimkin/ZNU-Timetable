@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block head %}{% include "base/head.html" with title="API" %}{% endblock %}
-{% block navbar %}{% include "base/navbar.html" with active_page="api" %}{% endblock %}
+{% block navbar %}{% include "base/navbar.html" with active_page="api_docs" %}{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -47,7 +47,7 @@
             </tr>
             <tr>
                 <td>lesson_type</td>
-                <td>Тип предмета:<br>0 — не задано<br>1 — лекція<br>2 — семінар<br>3 — лабораторна робота<br>4 — консультація<br>5 — екзамен</td>
+                <td>Тип предмета:<br>0 — не задано<br>1 — лекція<br>2 — семінар<br>3 — практика<br>4 — консультація<br>5 — екзамен</td>
             </tr>
         </table>
         <h4>Приклад запиту:</h4>
@@ -172,7 +172,7 @@
 
     <p>
         <h3>GET /current_week/</h3>
-        <p>Повертає інформацію про поточний тиждень.<br><i>1 – чисельник<br>2 – знаменник</i></p>
+        <p>Повертає інформацію про поточний тиждень та поточний тиждень на сервері.<br><i>1 – чисельник<br>2 – знаменник</i></p>
         <h4>Приклад запиту:</h4>
         <code>GET <a href="http://{{request.META.HTTP_HOST}}/api/v1/current_week/?format=json">http://{{request.META.HTTP_HOST}}/api/v1/current_week/?format=json</a></code>
     </p>

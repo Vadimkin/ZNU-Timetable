@@ -22,9 +22,7 @@ urlpatterns = patterns('',
                        url(r'^groups/$', views.GroupListView.as_view(), name='group_list'),
                        url(r'^groups/(?P<group_id>[0-9]+)$', views.GroupDetailView.as_view(), name='group_detail'),
                        url(r'^api/', include(v1_api.urls)),
-                       url(r'api/v1/doc/', include('tastypie_swagger.urls', namespace='tastypie_swagger'), name='api',
-                           kwargs={'tastypie_api_module': 'timetable.urls.v1_api', 'namespace': 'tastypie_swagger'},
-                           ),
+                       url(r'api/', views.APIView.as_view(), name='api_docs'),
                        url(r'^mobile/$', views.MobileApplicationView.as_view(), name='mobile_application'),
                        url(r'^report/$', views.ReportView.as_view(), name='report_send')
 
