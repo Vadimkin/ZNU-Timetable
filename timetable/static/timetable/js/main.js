@@ -102,6 +102,11 @@ $(document).ready(function() {
         })
     });
 
+
+    if(getQueryVariable('mode') == "report") {
+        $('.js-sendReport').click();
+    }
+
     $('.js-sendReportClose').on('click', function(e) {
         $('.alert-report').slideUp();
         $('.timetable-lesson').removeClass('timetable-lesson__reportMode');

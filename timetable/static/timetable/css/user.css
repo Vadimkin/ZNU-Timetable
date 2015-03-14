@@ -167,6 +167,15 @@ body {
                     padding-bottom: 10px;
                     background: #fff;
                 }
+
+                    .timetable-lesson__reportMode #timetable-col {
+                        background: #fffdc1;
+                    }
+
+                        .timetable-lesson__reportMode #timetable-col:hover {
+                            background: #ffc5c5;
+                        }
+
                 .timetable-info {
                     margin-bottom: 0px;
                     border-bottom: none;
