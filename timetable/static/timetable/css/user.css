@@ -198,14 +198,21 @@ body {
 
 
 	.mobileApps-one {
+	    max-width: 100%;
 		cursor: pointer;
 		color: #0060c7;
 	}
 
 		.mobileApps-model {
-			display: inline-block;
+		    max-width: 100%;
+			display: block;
 			margin-top: 20px;
 			font-size: 120%;
+		}
+
+		.mobileApps-img {
+		    max-width: 100%;
+			display: block;
 		}
 
 .mobileIOS {
