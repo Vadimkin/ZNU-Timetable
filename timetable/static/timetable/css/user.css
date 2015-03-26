@@ -157,6 +157,11 @@ body {
             color: #555555;
         }
 
+            .timetable-time {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+
         .timetable-info {
             background: #fff;
             line-height: 25px;
