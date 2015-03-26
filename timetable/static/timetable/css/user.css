@@ -42,7 +42,7 @@ body {
 }
 
     .groupName-info {
-        margin-top: 15px;
+        margin-top: 20px;
     }
 
         .form-inline .js-subgroup {
@@ -52,6 +52,18 @@ body {
         .btn-myGroup {
             display: none;
             margin-left: 10px;
+        }
+
+
+        @media (max-width: 767px) {
+            .groupName-info {
+                float: none !important;
+            }
+
+            .btn-myGroup {
+                margin-top: 10px;
+                margin-left: 0px;
+            }
         }
 
 .downloadCal {

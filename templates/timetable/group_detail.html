@@ -11,12 +11,12 @@
         <h2 title="{{ group.course }} курс">Розклад групи «{{ object.name }}»</h2>
     </div>
 
-    <div class="pull-right groupName-info form-inline hidden-xs">
+    <div class="pull-right groupName-info form-inline">
         <select class="form-control js-subgroup">
           <option selected="selected" value="0">Всі підгрупи</option>
         </select>
         <button class="btn btn-default btn-inline btn-myGroup js-myGroup" data-group="{{ object.id }}">Це моя група</button>
-        <button class="btn btn-default btn-inline js-sendReport" data-group="{{ object.id }}" data-readablegroup="{{ object.name }}">Помилка в розкладі</button>
+        <button class="btn btn-default btn-inline js-sendReport hidden-xs" data-group="{{ object.id }}" data-readablegroup="{{ object.name }}">Помилка в розкладі</button>
     </div>
 </div><!-- /.container -->
 
