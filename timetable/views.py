@@ -177,6 +177,8 @@ class APIView(generic.TemplateView):
 class MobileApplicationView(generic.TemplateView):
     template_name = 'timetable/mobile_applications.html'
 
+class AddTimetableView(generic.TemplateView):
+    template_name = 'timetable/add_timetable.html'
 
 class ReportView(generic.View):
     def post(self, request):

@@ -15,6 +15,7 @@
 				<li {% if active_page = 'teacher_list' %}class="active"{% endif %}><a href="{% url 'teacher_list' %}">Викладачі</a></li>
 				<li {% if active_page = 'map' %}class="active"{% endif %}><a href="{% url 'map' %}">Карта корпусів</a></li>
                 <li {% if active_page = 'mobile' %}class="active"{% endif %}><a href="{% url 'mobile_application' %}">Мобільний додаток</a></li>
+                <li {% if active_page = 'add_timetable' %}class="active"{% endif %}><a href="{% url 'add_timetable' %}">Не знайшли свою групу?</a></li>
 			</ul>
             <ul class="nav navbar-nav navbar-right hidden-sm">
                 <li><a href="https://github.com/Vadimkin/ZNU-Timetable">Github</a></li>

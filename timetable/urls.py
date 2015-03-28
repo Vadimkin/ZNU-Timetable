@@ -24,6 +24,7 @@ urlpatterns = patterns('',
                        url(r'^api/', include(v1_api.urls)),
                        url(r'api/', views.APIView.as_view(), name='api_docs'),
                        url(r'^mobile/$', views.MobileApplicationView.as_view(), name='mobile_application'),
+                       url(r'^add/$', views.AddTimetableView.as_view(), name='add_timetable'),
                        url(r'^report/$', views.ReportView.as_view(), name='report_send')
 
 )
