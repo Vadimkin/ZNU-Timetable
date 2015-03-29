@@ -18,14 +18,15 @@ class Department(models.Model):
         verbose_name = "факультет"
         verbose_name_plural = "факультети"
 
-    def save(self, *args, **kwargs):
+    def save(self, from_group=False, *args, **kwargs):
         self.last_update = time.time()
 
         super(Department, self).save(*args, **kwargs)
 
-        group = Group.objects.filter(departament_id=self.id)
-        for one_group in group:
-            one_group.save()
+        if not from_group:
+            group = Group.objects.filter(departament_id=self.id)
+            for one_group in group:
+                one_group.save()
 
 
 class Group(models.Model):
@@ -52,6 +53,7 @@ class Group(models.Model):
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
+        self.department.save(from_group=True)
 
         super(Group, self).save(*args, **kwargs)
 
