@@ -48,7 +48,7 @@ class Group(models.Model):
     class Meta:
         verbose_name = "група"
         verbose_name_plural = "групи"
-        ordering = ["course", ]
+        ordering = ["department", "course"]
 
     def save(self, *args, **kwargs):
         self.last_update = time.time()
