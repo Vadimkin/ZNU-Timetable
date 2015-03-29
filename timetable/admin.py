@@ -65,7 +65,7 @@ class TimetableAdmin(admin.ModelAdmin):
     def get_group(self, obj):
         result = ""
         for one_group in obj.group.all():
-            result += "{0} ({1})<br>".format(one_group.name, one_group.department)
+            result += u"{0} ({1})<br>".format(one_group.name, one_group.department)
         return result
 
     get_group.allow_tags = True
