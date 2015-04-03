@@ -13,7 +13,7 @@ from timetable.models import Timetable, Group, Lesson, Audience, Teacher
 
 __author__ = 'vadim'
 
-filename = '2334-1a-103a.xls'
+filename = '8.35914.xls'
 
 week_days = {
     u"Понеділок": 0,
@@ -32,7 +32,8 @@ numerator = {
 lesson_type = {
     u"лекція": 1,
     u"семінар": 2,
-    u"лабораторна": 3
+    u"лабораторна": 3,
+    u"практика": 3
 }
 
 rb = xlrd.open_workbook(os.path.dirname(os.path.abspath(__file__)) + '/data/' + filename, formatting_info=False)
