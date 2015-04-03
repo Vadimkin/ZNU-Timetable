@@ -72,13 +72,13 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.
         lesson['subgroup'] = 0 if row[8] == "" else int(row[8])
         lesson['free_trajectory'] = 0 if row[9] == "" else int(row[9])
 
-        lesson_object = Lesson.objects.get_or_create(name=lesson['name'])
+        lesson_object = Lesson.objects.get_or_create(name=lesson['name'])[0]
         lesson['name_id'] = lesson_object.id
 
-        audience_object = Audience.objects.get_or_create(campus_id=lesson['campus'], audience=lesson['audience'])
+        audience_object = Audience.objects.get_or_create(campus_id=lesson['campus'], audience=lesson['audience'])[0]
         lesson['audience_id'] = audience_object.id
 
-        teacher_object = Teacher.objects.get_or_create(name=lesson['teacher'])
+        teacher_object = Teacher.objects.get_or_create(name=lesson['teacher'])[0]
         lesson['teacher_id'] = teacher_object.id
 
         timetable = Timetable.objects.get_or_create(lesson_id=lesson['name_id'], day=lesson['week_day'],
@@ -86,6 +86,6 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.
                                                     periodicity=lesson['periodicity'], lesson_type=lesson['type'],
                                                     teacher_id=lesson['teacher_id'], period_id=lesson['time'],
                                                     subgroup=lesson['subgroup'],
-                                                    free_trajectory=lesson['free_trajectory'])
+                                                    free_trajectory=lesson['free_trajectory'])[0]
 
         timetable.group.add(main_info['group_id'])
