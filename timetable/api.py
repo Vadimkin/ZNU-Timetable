@@ -6,8 +6,10 @@ from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db.models import Max
 from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.utils.datastructures import MultiValueDictKeyError
 from tastypie import fields
 from tastypie.resources import Resource, ModelResource, ALL
+from tastypie.serializers import Serializer
 from tastypie.utils import trailing_slash
 from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
 from timetable.utils import get_current_week
@@ -214,27 +216,53 @@ class TimetableResource(ModelResource):
     def dehydrate(self, bundle):
         del bundle.data['lesson']
         del bundle.data['teacher']
-        # del bundle.data['group']
 
         try:
-            bundle.data['teacher_id'] = bundle.obj.teacher.id
-        except AttributeError:
-            bundle.data['teacher_id'] = None
+            extended = bundle.request.GET['extended']
+        except MultiValueDictKeyError:
+            extended = 0
 
-        bundle.data['group'] = []
+        if extended:
+            bundle.data['teacher'] = bundle.obj.teacher
 
-        for one_group in bundle.obj.group.all():
-            bundle.data['group'].append(one_group.id)
+            bundle.data['group'] = []
 
-        bundle.data['lesson_id'] = bundle.obj.lesson.id
+            for one_group in bundle.obj.group.all():
+                bundle.data['group'].append(one_group)
 
-        try:
-            bundle.data['audience_id'] = bundle.obj.audience.id
-        except AttributeError:
-            bundle.data['audience_id'] = None
+            try:
+                bundle.data['audience_num'] = bundle.obj.audience.audience
+                bundle.data['campus'] = bundle.obj.audience.campus
+            except AttributeError:
+                bundle.data['audience'] = None
 
-        if bundle.obj.period:
-            bundle.data['time_id'] = bundle.obj.period.id
+            bundle.data['lesson'] = bundle.obj.lesson.name
+
+            if bundle.obj.period:
+                bundle.data['time_num'] = bundle.obj.period.num
+                bundle.data['time_start'] = bundle.obj.period.time_start
+                bundle.data['time_end'] = bundle.obj.period.time_end
+
+        else:
+            try:
+                bundle.data['teacher_id'] = bundle.obj.teacher.id
+            except AttributeError:
+                bundle.data['teacher_id'] = None
+
+            bundle.data['group'] = []
+
+            for one_group in bundle.obj.group.all():
+                bundle.data['group'].append(one_group.id)
+
+            bundle.data['lesson_id'] = bundle.obj.lesson.id
+
+            try:
+                bundle.data['audience_id'] = bundle.obj.audience.id
+            except AttributeError:
+                bundle.data['audience_id'] = None
+
+            if bundle.obj.period:
+                bundle.data['time_id'] = bundle.obj.period.id
 
         return bundle
 
