@@ -15,12 +15,13 @@ from timetable.models import Timetable, Group, Lesson, Audience, Teacher
 __author__ = 'vadim'
 
 week_days = {
-    u"Понеділок": 0,
-    u"Вівторок": 1,
-    u"Середа": 2,
-    u"Четвер": 3,
-    u"П'ятниця": 4,
-    u"Субота": 5
+    u"понеділок": 0,
+    u"вівторок": 1,
+    u"середа": 2,
+    u"четвер": 3,
+    u"четверг": 3,
+    u"п'ятниця": 4,
+    u"субота": 5
 }
 
 numerator = {
@@ -61,12 +62,12 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.
 
         print(row[0].strip())
 
-        lesson['week_day'] = week_days[row[0].strip()]
+        lesson['week_day'] = week_days[row[0].strip().lower()]
         lesson['time'] = int(row[1])
         lesson['periodicity'] = 0 if row[2] == "" else numerator[row[2].lower()]
         lesson['type'] = 0 if row[3] == "" else lesson_type[row[3].lower()]
         lesson['name'] = row[4]
-        lesson['teacher'] = u"—" if row[5] == "" else row[5]
+        lesson['teacher'] = u"—" if row[5] == "" else row[5].strip()
         lesson['audience'] = u"—" if row[6] == "" else row[6]
         lesson['campus'] = 9 if row[7] == "" else int(row[7])
         lesson['subgroup'] = 0 if row[8] == "" else int(row[8])
