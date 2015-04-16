@@ -152,12 +152,28 @@ class GroupAdmin(admin.ModelAdmin):
     get_last_update.short_description = 'Останнє оновлення'
 
 
+class ReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'fixed', 'message', 'contacts', 'timetable', 'get_group_link', 'edit_link')
+
+    def get_group_link(self, obj):
+        return u'<a href="/groups/{0}">{1}</a>'.format(obj.group.id, obj.group.name)
+    get_group_link.allow_tags = True
+
+    def edit_link(self, obj):
+        try:
+            return u'<a href="/admin/timetable/timetable/{0}">{1}</a>'.format(obj.timetable.id, 'edit')
+        except AttributeError:
+            return u'<a href="/admin/timetable/group/{0}">{1}</a>'.format(obj.group.id, 'edit')
+
+    edit_link.allow_tags = True
+
+
 admin.site.register(Department)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Time)
 admin.site.register(Campus, CampusAdmin)
 admin.site.register(Audience)
-admin.site.register(Report)
+admin.site.register(Report, ReportAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Timetable, TimetableAdmin)

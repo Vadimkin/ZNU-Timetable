@@ -21,12 +21,14 @@ week_days = {
     u"четвер": 3,
     u"четверг": 3,
     u"п'ятниця": 4,
+    u"пятниця": 4,
     u"субота": 5
 }
 
 numerator = {
     u"чисельник": 1,
-    u"знаменник": 2
+    u"знаменник": 2,
+    u"знаменик": 2
 }
 
 lesson_type = {
@@ -34,11 +36,15 @@ lesson_type = {
     u"семінар": 2,
     u"cемінар": 2,
     u"лабораторна": 3,
-    u"практика": 3
+    u"практика": 3,
+    u"пр.": 3
 }
 
-for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.xls'):
+for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/new/*.xls'):
     print("Open {0}".format(filename))
+
+    if filename != "/Users/vadim/Projects/znu/parser/data/new/7.23324-_-502-_.xls":
+        continue
 
     rb = xlrd.open_workbook(filename, formatting_info=False)
     sheet = rb.sheet_by_index(0)
@@ -61,14 +67,23 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.
         lesson = {}
 
         print(row[0].strip())
+        print(row[4].strip())
 
         lesson['week_day'] = week_days[row[0].strip().lower()]
-        lesson['time'] = int(row[1])
-        lesson['periodicity'] = 0 if row[2] == "" else numerator[row[2].lower()]
+        try:
+            lesson['time'] = int(row[1])
+        except UnicodeEncodeError:
+            continue
+
+        lesson['periodicity'] = 0 if row[2] == "" else numerator[row[2].lower().strip()]
         lesson['type'] = 0 if row[3] == "" else lesson_type[row[3].lower()]
-        lesson['name'] = row[4]
+        lesson['name'] = row[4].strip()
         lesson['teacher'] = u"—" if row[5] == "" else row[5].strip()
-        lesson['audience'] = u"—" if row[6] == "" else row[6]
+        try:
+            lesson['audience'] = u"—" if row[6] == "" else int(row[6])
+        except UnicodeEncodeError:
+            lesson['audience'] = u"—" if row[6] == "" else row[6]
+
         lesson['campus'] = 9 if row[7] == "" else int(row[7])
         lesson['subgroup'] = 0 if row[8] == "" else int(row[8])
         lesson['free_trajectory'] = 0 if row[9] == "" else int(row[9])
@@ -82,11 +97,13 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/*.
         teacher_object = Teacher.objects.get_or_create(name=lesson['teacher'])[0]
         lesson['teacher_id'] = teacher_object.id
 
-        timetable = Timetable.objects.get_or_create(lesson_id=lesson['name_id'], day=lesson['week_day'],
-                                                    audience_id=lesson['audience_id'],
-                                                    periodicity=lesson['periodicity'], lesson_type=lesson['type'],
-                                                    teacher_id=lesson['teacher_id'], period_id=lesson['time'],
-                                                    subgroup=lesson['subgroup'],
-                                                    free_trajectory=lesson['free_trajectory'])[0]
+        print(lesson)
 
-        timetable.group.add(main_info['group_id'])
+        # timetable = Timetable.objects.get_or_create(lesson_id=lesson['name_id'], day=lesson['week_day'],
+        #                                             audience_id=lesson['audience_id'],
+        #                                             periodicity=lesson['periodicity'], lesson_type=lesson['type'],
+        #                                             teacher_id=lesson['teacher_id'], period_id=lesson['time'],
+        #                                             subgroup=lesson['subgroup'],
+        #                                             free_trajectory=lesson['free_trajectory'])[0]
+
+        # timetable.group.add(main_info['group_id'])
