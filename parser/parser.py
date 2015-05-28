@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # !/usr/bin/env python
 import glob
+import re
 import os
 import sys
 import xlrd
@@ -40,11 +41,14 @@ lesson_type = {
     u"пр.": 3
 }
 
+
+def replace_all(repls, str):
+    # return re.sub('|'.join(repls.keys()), lambda k: repls[k.group(0)], str)
+    return re.sub('|'.join(re.escape(key) for key in repls.keys()),
+                  lambda k: repls[k.group(0)], str)
+
 for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/new/*.xls'):
     print("Open {0}".format(filename))
-
-    if filename != "/Users/vadim/Projects/znu/parser/data/new/7.23324-_-502-_.xls":
-        continue
 
     rb = xlrd.open_workbook(filename, formatting_info=False)
     sheet = rb.sheet_by_index(0)
@@ -54,7 +58,7 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
     main_info['group'] = sheet.row_values(1)[1]
     main_info['course'] = int(sheet.row_values(1)[2])
 
-    main_info['faculty'] = 2
+    main_info['faculty'] = 3
 
     # if group not found, then create it
     group, created = Group.objects.get_or_create(department_id=main_info['faculty'], name=main_info['group'],
@@ -72,13 +76,17 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
         lesson['week_day'] = week_days[row[0].strip().lower()]
         try:
             lesson['time'] = int(row[1])
-        except UnicodeEncodeError:
+        except (UnicodeEncodeError, ValueError):
             continue
 
         lesson['periodicity'] = 0 if row[2] == "" else numerator[row[2].lower().strip()]
         lesson['type'] = 0 if row[3] == "" else lesson_type[row[3].lower()]
         lesson['name'] = row[4].strip()
         lesson['teacher'] = u"—" if row[5] == "" else row[5].strip()
+
+        replace_all({"доц.": "", "ст.викл.": "", "проф.": ""}, lesson['teacher'])
+        lesson['teacher'] = lesson['teacher'].strip()
+
         try:
             lesson['audience'] = u"—" if row[6] == "" else int(row[6])
         except UnicodeEncodeError:
@@ -97,13 +105,11 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
         teacher_object = Teacher.objects.get_or_create(name=lesson['teacher'])[0]
         lesson['teacher_id'] = teacher_object.id
 
-        print(lesson)
+        timetable = Timetable.objects.get_or_create(lesson_id=lesson['name_id'], day=lesson['week_day'],
+                                                    audience_id=lesson['audience_id'],
+                                                    periodicity=lesson['periodicity'], lesson_type=lesson['type'],
+                                                    teacher_id=lesson['teacher_id'], period_id=lesson['time'],
+                                                    subgroup=lesson['subgroup'],
+                                                    free_trajectory=lesson['free_trajectory'])[0]
 
-        # timetable = Timetable.objects.get_or_create(lesson_id=lesson['name_id'], day=lesson['week_day'],
-        #                                             audience_id=lesson['audience_id'],
-        #                                             periodicity=lesson['periodicity'], lesson_type=lesson['type'],
-        #                                             teacher_id=lesson['teacher_id'], period_id=lesson['time'],
-        #                                             subgroup=lesson['subgroup'],
-        #                                             free_trajectory=lesson['free_trajectory'])[0]
-
-        # timetable.group.add(main_info['group_id'])
+        timetable.group.add(main_info['group_id'])
