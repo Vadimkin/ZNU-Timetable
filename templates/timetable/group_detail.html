@@ -28,7 +28,6 @@
         </div>
 
         {% for lesson in timetable %}
-            {% if lesson|is_not_past_due  %}
                 {% ifchanged lesson.day or ifchanged lesson.week %}
                     {% if forloop.counter != 1 %}
                         </div> <!-- (-) container-fluid -->
@@ -42,7 +41,9 @@
                             <span class="calendar-icon"></span>
                             <div class="date">
                                 <div class="date-weekday">{{ lesson.get_readable_week_day }}</div>
-                                <div class="date-day">{% readable_month_day lesson %}, {{ lesson.get_week_type|lower }}</div>
+                                {% if lesson|is_not_past_due  %}
+                                    <div class="date-day">{% readable_month_day lesson %}, {{ lesson.get_week_type|lower }}</div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -65,9 +66,6 @@
                     </div> <!-- (-) col-md-9 -->
                     </div> <!-- (-) timetable-lesson -->
                 {% endif %}
-            {% else %}
-                 </div>  <!-- (-) timetable-lesson -->
-            {% endif %}
         {% empty %}
             <h3>На жаль, розклад для даної групи ще не доданий</h3>
         {% endfor %}
