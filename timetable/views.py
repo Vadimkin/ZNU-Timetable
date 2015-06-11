@@ -58,14 +58,14 @@ class TeacherDetailView(generic.DetailView):
 
         timetable = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                              periodicity__in=[0, current_week],
-                                             date_start__lte=first_day_of_week,
-                                             date_end__gte=first_day_of_week,
+                                             # date_start__lte=first_day_of_week,
+                                             # date_end__gte=first_day_of_week,
                                              day__gte=current_week_day, ).order_by('day', 'period', 'subgroup')
 
         timetable_with_offset = Timetable.objects.filter(teacher_id=self.kwargs['teacher_id'],
                                                          periodicity__in=[0, current_week],
-                                                         date_start__lte=first_day_of_week,
-                                                         date_end__gte=first_day_of_week,
+                                                         # date_start__lte=first_day_of_week,
+                                                         # date_end__gte=first_day_of_week,
                                                          day__lt=current_week_day, ).order_by('day', 'period',
                                                                                               'subgroup')
 
@@ -124,14 +124,14 @@ class GroupDetailView(generic.DetailView):
 
         timetable = Timetable.objects.filter(group=self.kwargs['group_id'],
                                              periodicity__in=[0, current_week],
-                                             date_start__lte=first_day_of_week,
-                                             date_end__gte=first_day_of_week,
+                                             # date_start__lte=first_day_of_week,
+                                             # date_end__gte=first_day_of_week,
                                              day__gte=current_week_day, ).order_by('day', 'period', 'subgroup')
 
         timetable_with_offset = Timetable.objects.filter(group=self.kwargs['group_id'],
                                                          periodicity__in=[0, current_week],
-                                                         date_start__lte=first_day_of_week,
-                                                         date_end__gte=first_day_of_week,
+                                                         # date_start__lte=first_day_of_week,
+                                                         # date_end__gte=first_day_of_week,
                                                          day__lt=current_week_day, ).order_by('day', 'period',
                                                                                               'subgroup')
 

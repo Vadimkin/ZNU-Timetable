@@ -43,6 +43,8 @@
                                 <div class="date-weekday">{{ lesson.get_readable_week_day }}</div>
                                 {% if lesson|is_not_past_due  %}
                                     <div class="date-day">{% readable_month_day lesson %}, {{ lesson.get_week_type|lower }}</div>
+                                {% else %}
+                                    <div class="date-day">{{ lesson.get_week_type }}</div>
                                 {% endif %}
                             </div>
                         </div>
