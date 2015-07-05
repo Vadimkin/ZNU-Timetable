@@ -7,6 +7,16 @@ body {
 	margin-bottom: 60px;
 }
 
+
+.animate {
+	-webkit-transition: all 0.20s linear;
+		 -o-transition: all 0.20s linear;
+	   -moz-transition: all 0.20s linear;
+		-ms-transition: all 0.20s linear;
+	-kthtml-transition: all 0.20s linear;
+			transition: all 0.20s linear;
+}
+
 /*
  * Cover
  */
@@ -291,3 +301,83 @@ body {
                 -o-animation:      rotating 1.5s infinite linear;
                 animation:         rotating 1.5s infinite linear;
             }
+
+/*
+ * Landing
+ */
+
+    .landing-main {
+        background: url("../img/znu-1k.jpg");
+        background-size: cover;
+        background-position: 50% 50%;
+
+        position: relative;
+    }
+
+    .landing-main body {
+        background: transparent;
+    }
+
+    .landing-main .footer {
+    	display: none !important;
+    }
+
+    .landing {
+        width: 800px;
+        background: transparent;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin: -200px 0 0 -400px;
+    }
+
+    .landing-title {
+        font-family: 'PT Sans Caption', sans-serif;
+        font-size: 60px;
+        font-weight: bold;
+        text-align: center;
+        color: #fff;
+    }
+
+    .landing-desc {
+        max-width: 800px;
+        margin: 20px auto;
+        font-family: 'PT Sans Caption', sans-serif;
+        font-size: 26px;
+        text-align: center;
+        color: #fff;
+    }
+
+    .landing-writeLetter {
+        display: block;
+        font-family: 'PT Sans', sans-serif;
+        font-weight: 400;
+        color: #fff;
+        width: 200px;
+        border: 1px solid #fff;
+        padding: 10px 0;
+        margin: 40px auto;
+        opacity: 1;
+        border-radius: 30px;
+        text-align: center;
+        text-decoration: none;
+    }
+
+        .landing-writeLetter:hover {
+            background: #fff;
+            color: #666;
+            text-decoration: none;
+        }
+
+    .landing-comingSoon {
+        font-family: 'PT Sans', sans-serif;
+        font-weight: 400;
+        color: #fff;
+        width: 200px;
+        border: 1px solid #fff;
+        padding: 10px 0;
+        margin: 40px auto;
+        opacity: 0.4;
+        border-radius: 30px;
+        text-align: center;
+    }

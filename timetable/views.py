@@ -28,6 +28,10 @@ class IndexListView(generic.ListView):
         return response
 
 
+class LandingTemplateView(generic.TemplateView):
+    template_name = 'timetable/landing.html'
+
+
 class MapView(generic.TemplateView):
     template_name = 'timetable/map.html'
 
