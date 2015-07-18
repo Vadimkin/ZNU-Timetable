@@ -340,13 +340,17 @@ body {
     }
 
     .landing-desc {
-        max-width: 800px;
+        max-width: 700px;
         margin: 20px auto;
         font-family: 'PT Sans Caption', sans-serif;
-        font-size: 26px;
-        text-align: center;
+        font-size: 24px;
         color: #fff;
     }
+
+        .landing-desc a {
+            text-decoration: underline;
+            color: #fff;
+        }
 
     .landing-writeLetter {
         display: block;
@@ -362,6 +366,7 @@ body {
         text-align: center;
         text-decoration: none;
     }
+
 
         .landing-writeLetter:hover {
             background: #fff;
