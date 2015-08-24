@@ -16,7 +16,6 @@ v1_api.register(api.CurrentWeekResource())
 urlpatterns = patterns('',
                        url(r'^api/', include(v1_api.urls)),
                        url(r'api/', views.APIView.as_view(), name='api_docs'),
-                       url(r'', views.LandingTemplateView.as_view(), name='index'),
 
                        url(r'^$', views.IndexListView.as_view(), name='index'),
                        url(r'^map/$', views.MapView.as_view(), name='map'),
