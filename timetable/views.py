@@ -24,7 +24,8 @@ class IndexListView(generic.ListView):
         group_info = request.COOKIES.get('groupInfo')
         if group_info:
             group_id = json.loads(urllib.unquote(group_info))['group_id']
-            return HttpResponseRedirect(reverse('group_detail', args=[group_id]))
+            if Group.objects.filter(id=group_id).exists():
+                return HttpResponseRedirect(reverse('group_detail', args=[group_id]))
         return response
 
 
