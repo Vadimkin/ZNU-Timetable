@@ -37,31 +37,6 @@ class TimetableAdmin(admin.ModelAdmin):
     get_colored_day.allow_tags = True
     get_colored_day.short_description = 'День тижня'
 
-    def get_form(self, request, obj=None, **kwargs):
-        form = super(TimetableAdmin, self).get_form(request, obj, **kwargs)
-
-        from django.contrib.admin.models import LogEntry, CHANGE
-        try:
-            last_id = LogEntry.objects.filter(user_id=request.user.pk, action_flag=1, content_type_id=13)[0].object_id
-        except IndexError:
-            return form
-
-        try:
-            previous_data = Timetable.objects.get(id=last_id)
-
-            groups_list = []
-            for one_group in previous_data.group.all():
-                groups_list.append(one_group.id)
-
-            form.base_fields['group'].initial = groups_list
-
-            form.base_fields['day'].initial = previous_data.day
-            form.base_fields['period'].initial = previous_data.period
-        except AttributeError:
-            pass
-
-        return form
-
     def get_group(self, obj):
         result = ""
         for one_group in obj.group.all():
