@@ -222,8 +222,8 @@ class Timetable(models.Model):
     audience = models.ForeignKey(Audience, verbose_name="Аудиторія")
     periodicity = models.IntegerField(max_length=1, choices=PERIODICITY_CHOICES, default=ALWAYS_LESSON,
                                       verbose_name="Періодичність")
-    date_start = models.DateField(verbose_name="Початок пар", default=datetime.date(2015, 2, 2))
-    date_end = models.DateField(verbose_name="Кінець пар", default=datetime.date(2015, 5, 30))
+    date_start = models.DateField(verbose_name="Початок пар", default=datetime.date(2015, 8, 1))
+    date_end = models.DateField(verbose_name="Кінець пар", default=datetime.date(2015, 12, 29))
     period = models.ForeignKey(Time, verbose_name="Час пар", null=True)
     lesson_type = models.IntegerField(max_length=1, choices=LESSON_TYPES, default=NONE_TYPE,
                                       verbose_name="Тип предмету")

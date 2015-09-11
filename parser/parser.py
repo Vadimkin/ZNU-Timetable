@@ -23,6 +23,7 @@ week_days = {
     u"четверг": 3,
     u"п'ятниця": 4,
     u"пятниця": 4,
+    u'п’ятниця': 4,
     u"субота": 5
 }
 
@@ -38,7 +39,10 @@ lesson_type = {
     u"cемінар": 2,
     u"лабораторна": 3,
     u"практика": 3,
-    u"пр.": 3
+    u"пр.": 3,
+    u"1": 1,
+    u"2": 2,
+    u"3": 3
 }
 
 
@@ -58,7 +62,7 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
     main_info['group'] = sheet.row_values(1)[1]
     main_info['course'] = int(sheet.row_values(1)[2])
 
-    main_info['faculty'] = 3
+    main_info['faculty'] = 9
 
     # if group not found, then create it
     group, created = Group.objects.get_or_create(department_id=main_info['faculty'], name=main_info['group'],
@@ -73,7 +77,10 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
         print(row[0].strip())
         print(row[4].strip())
 
-        lesson['week_day'] = week_days[row[0].strip().lower()]
+        try:
+            lesson['week_day'] = week_days[row[0].strip().lower()]
+        except KeyError:
+            continue
         try:
             lesson['time'] = int(row[1])
         except (UnicodeEncodeError, ValueError):
