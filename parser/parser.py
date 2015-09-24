@@ -62,12 +62,14 @@ for filename in glob.glob(os.path.dirname(os.path.abspath(__file__)) + '/data/ne
     main_info['group'] = sheet.row_values(1)[1]
     main_info['course'] = int(sheet.row_values(1)[2])
 
-    main_info['faculty'] = 9
+    main_info['faculty'] = 3
 
     # if group not found, then create it
     group, created = Group.objects.get_or_create(department_id=main_info['faculty'], name=main_info['group'],
                                                  course=main_info['course'])
     main_info['group_id'] = group.id
+
+    print(main_info['group_id'])
 
     for rownum in range(3, sheet.nrows):
         row = sheet.row_values(rownum)

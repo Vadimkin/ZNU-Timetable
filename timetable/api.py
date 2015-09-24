@@ -5,17 +5,38 @@ import json
 from django.conf.urls import url
 from django.core.urlresolvers import reverse
 from django.db.models import Max
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from tastypie import fields
+from tastypie.contrib.gis import resources
 from tastypie.resources import Resource, ModelResource, ALL
 from tastypie.serializers import Serializer
 from tastypie.utils import trailing_slash
 from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
 from timetable.utils import get_current_week
 
+def build_content_type(format, encoding='utf-8'):
+    """
+    Appends character encoding to the provided format if not already present.
+    """
+    if 'charset' in format:
+        return format
 
-class DepartmentResource(ModelResource):
+    return "%s; charset=%s" % (format, encoding)
+
+
+class UTFModelResource(resources.ModelResource):
+    def create_response(self, request, data, response_class=HttpResponse, **response_kwargs):
+        """
+        Extracts the common "which-format/serialize/return-response" cycle.
+        Mostly a useful shortcut/hook.
+        """
+        desired_format = self.determine_format(request)
+        serialized = self.serialize(request, data, desired_format)
+        return response_class(content=serialized, content_type=build_content_type(desired_format), **response_kwargs)
+
+
+class DepartmentResource(UTFModelResource):
     class Meta:
         queryset = Department.objects.filter(last_update__gt=0)
         include_resource_uri = False
@@ -26,7 +47,7 @@ class DepartmentResource(ModelResource):
         return super(DepartmentResource, self).get_object_list(request)
 
 
-class GroupResource(ModelResource):
+class GroupResource(UTFModelResource):
     department = fields.ForeignKey(DepartmentResource, 'department')
 
     class Meta:
@@ -77,7 +98,7 @@ class GroupResource(ModelResource):
         return bundle
 
 
-class TeacherResource(ModelResource):
+class TeacherResource(UTFModelResource):
     class Meta:
         queryset = Teacher.objects.all()
         include_resource_uri = False
@@ -95,7 +116,7 @@ class TeacherResource(ModelResource):
         return bundle
 
 
-class CampusResource(ModelResource):
+class CampusResource(UTFModelResource):
     class Meta:
         queryset = Campus.objects.all()
         resource_name = 'campus'
@@ -112,7 +133,7 @@ class CampusResource(ModelResource):
         return bundle
 
 
-class AudienceResource(ModelResource):
+class AudienceResource(UTFModelResource):
     campus = fields.ForeignKey(CampusResource, 'campus')
 
     class Meta:
@@ -136,7 +157,7 @@ class AudienceResource(ModelResource):
         return bundle
 
 
-class LessonResource(ModelResource):
+class LessonResource(UTFModelResource):
     class Meta:
         queryset = Lesson.objects.all()
         include_resource_uri = False
@@ -148,7 +169,7 @@ class LessonResource(ModelResource):
         }
 
 
-class TimeResource(ModelResource):
+class TimeResource(UTFModelResource):
     class Meta:
         queryset = Time.objects.all()
         include_resource_uri = False
@@ -160,7 +181,7 @@ class TimeResource(ModelResource):
         }
 
 
-class TimetableResource(ModelResource):
+class TimetableResource(UTFModelResource):
     teacher = fields.ForeignKey(TeacherResource, 'teacher', null=True, blank=True)
     lesson = fields.ForeignKey(LessonResource, 'lesson')
     group = fields.ManyToManyField(GroupResource, 'group')
