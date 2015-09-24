@@ -8,12 +8,12 @@ from django.db.models import Max
 from django.http import HttpResponseRedirect, HttpResponseNotFound, HttpResponse
 from django.utils.datastructures import MultiValueDictKeyError
 from tastypie import fields
-from tastypie.contrib.gis import resources
-from tastypie.resources import Resource, ModelResource, ALL
-from tastypie.serializers import Serializer
+from tastypie.contrib.contenttypes import resources
+from tastypie.resources import Resource, ALL
 from tastypie.utils import trailing_slash
 from timetable.models import Department, Group, Teacher, Campus, Audience, Lesson, Timetable, Time
 from timetable.utils import get_current_week
+
 
 def build_content_type(format, encoding='utf-8'):
     """
