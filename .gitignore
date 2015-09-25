@@ -9,4 +9,5 @@ images/
 files/
 .idea/
 /fabfile.py
+/parser/parser.py
 znu/static/*
