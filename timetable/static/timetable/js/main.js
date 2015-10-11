@@ -78,10 +78,6 @@ $(document).ready(function() {
         showModal('Збережено', 'Тепер при вході на головну сторінку сайту буде відображатись Ваш розклад.');
     });
 
-    $('.mobileApps-one__ios').on('click', function() {
-        $('.selectDevice, .mobileIOS').slideToggle();
-    });
-
     $('.js-sendReport').on('click', function() {
         $('.timetable-lesson').addClass('timetable-lesson__reportMode');
         groupID = $(this).data('group');
